@@ -50,4 +50,7 @@ tools: Read, Grep, Glob, Write, Edit
 
 ## 참고 자료
 
-- `.claude/knowledge/ux-designer/` — 타겟 유저 페르소나·기존 플로우·반복 등장하는 마찰 패턴이 쌓이는 자리.
+- **글로벌 디자인 시스템 (레이아웃·간격·인터랙션 패턴 참조)**: `C:/Users/Administrator/.claude/knowledge/ui-designer/design-system.md`
+  - UX 관점에서는 *섹션 5(레이아웃)·6(컴포넌트 인터랙션 패턴)·7(애니메이션)*을 주로 본다. 페이지 패딩·아이템 간격·섹션 간격·바텀 네비/시트 구조·전환 애니메이션 등이 정의됨.
+- **프로젝트별 오버라이드 (있으면 우선)**: `./.claude/knowledge/ui-designer/design-system.md` (프로젝트 루트 기준).
+- **UX 고유 자료**: `./.claude/knowledge/ux-designer/` — 타겟 유저 페르소나·기존 플로우·반복 등장하는 마찰 패턴.

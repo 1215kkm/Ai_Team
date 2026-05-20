@@ -51,4 +51,9 @@ tools: Read, Grep, Glob, Write, Edit
 
 ## 참고 자료
 
-- `.claude/knowledge/ui-designer/` — 디자인 시스템·컬러 토큰·컴포넌트 규칙·브랜드 비주얼이 쌓이는 자리.
+- **글로벌 디자인 시스템 (디폴트, 항상 먼저 읽을 것)**: `C:/Users/Administrator/.claude/knowledge/ui-designer/design-system.md`
+  - 색·타이포·둥글기·그림자·레이아웃·핵심 컴포넌트(바텀 네비, 시트, 글래스 카드, 칩, 채팅 말풍선, 매너 태그, 한강 온도 바, 레이더 뷰 등)·애니메이션·Flutter 테마 코드 포함.
+  - 새 화면 디자인 시 *기존 토큰부터* 적용. 새 값이 필요하면 한 줄 근거 명시.
+- **프로젝트별 오버라이드 (있으면 우선)**: `./.claude/knowledge/ui-designer/design-system.md` (프로젝트 루트 기준)
+  - 사용자가 "다른 디자인이 필요해"라고 명시한 프로젝트에만 존재. 있으면 글로벌보다 우선 적용.
+- **그 외 프로젝트별 비주얼 자료**: `./.claude/knowledge/ui-designer/` 하위에 자유롭게 (브랜드 가이드·레퍼런스 등).
