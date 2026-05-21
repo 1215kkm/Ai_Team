@@ -14,9 +14,13 @@ $ErrorActionPreference = "Stop"
 $repoRoot   = Split-Path -Parent $PSScriptRoot
 $srcAgents  = Join-Path $repoRoot ".claude/agents"
 $srcKnow    = Join-Path $repoRoot ".claude/knowledge"
+$srcTpl     = Join-Path $repoRoot "templates"
+$srcBin     = Join-Path $repoRoot "scripts"
 $dstRoot    = Join-Path $HOME ".claude"
 $dstAgents  = Join-Path $dstRoot "agents"
 $dstKnow    = Join-Path $dstRoot "knowledge"
+$dstTpl     = Join-Path $dstRoot "templates"
+$dstBin     = Join-Path $dstRoot "bin"
 
 if (-not (Test-Path $srcAgents)) {
     Write-Error "에이전트 폴더를 찾지 못함: $srcAgents (레포 루트에서 실행했나요?)"
@@ -29,6 +33,8 @@ Write-Host ""
 
 New-Item -ItemType Directory -Force -Path $dstAgents | Out-Null
 New-Item -ItemType Directory -Force -Path $dstKnow   | Out-Null
+New-Item -ItemType Directory -Force -Path $dstTpl    | Out-Null
+New-Item -ItemType Directory -Force -Path $dstBin    | Out-Null
 
 function Copy-Tree($from, $to, $label) {
     Get-ChildItem -Path $from -File -Recurse | ForEach-Object {
@@ -46,13 +52,23 @@ function Copy-Tree($from, $to, $label) {
     }
 }
 
-Write-Host "[1/2] agents 복사"
+Write-Host "[1/4] agents 복사"
 Copy-Tree $srcAgents $dstAgents "agents"
 
 Write-Host ""
-Write-Host "[2/2] knowledge 복사"
+Write-Host "[2/4] knowledge 복사 (전역 브레인 포함)"
 Copy-Tree $srcKnow $dstKnow "knowledge"
 
 Write-Host ""
-Write-Host "완료. 이제 어떤 레포에서든 Claude Code를 켜면 강사장·강팀장·강디1·강디2·강개발·강체크·강홍보·강감시·아뱅을 호출할 수 있음."
+Write-Host "[3/4] templates 복사 (회의록·목업·회고)"
+Copy-Tree $srcTpl $dstTpl "templates"
+
+Write-Host ""
+Write-Host "[4/4] scripts 복사 (start-meeting 등)"
+Copy-Tree $srcBin $dstBin "scripts"
+
+Write-Host ""
+Write-Host "완료. 이제 어떤 레포에서든:"
+Write-Host "  • Claude Code 열면 강사장·강팀장·강디1·강디2·강개발·강체크·강홍보·강감시·아뱅 호출 가능"
+Write-Host "  • 회의 시작: pwsh ~/.claude/bin/start-meeting.ps1 `"회의 주제`""
 Write-Host "프로젝트 .claude/ 에 같은 파일이 있으면 그쪽이 우선."

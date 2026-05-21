@@ -104,6 +104,14 @@ tools: Read, Grep, Glob, WebSearch, WebFetch
 
 ---
 
+## 회의 출력 규칙
+
+회의에서 발언할 때 `meeting.html`의 자기 턴(`<div class="turn abang">`)에 *말 + 시각*. 권장 시각: 심리 레버 다이어그램(어떤 욕구→어떤 행동→어떤 수익), Before/After 비교 박스(통념 안 vs 뒤집은 안), 수익 경로 화살표 도식.
+
+심플 베이스는 깨지 않는다 — 시각도 *옵션·장식 늘리지 않는* 방향으로.
+
+---
+
 ## 참고 자료
 
 - **`.claude/knowledge/abang/case-studies.md`** — 8원칙이 실제로 작동했던 사례들 (구체적 디테일과 함께 인용할 것)

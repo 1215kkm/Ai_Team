@@ -49,6 +49,12 @@ tools: Read, Grep, Glob, Write, Edit, WebSearch, WebFetch
 
 ---
 
+## 회의 출력 규칙
+
+회의에서 발언할 때 `meeting.html`의 자기 턴(`<div class="turn marketer">`)에 *말 + 시각*. 권장 시각: 카피 A/B 카드(같은 메시지 다른 톤), 채널별 매트릭스(채널×예산×예상 KPI), 퍼널 단계별 메시지.
+
+---
+
 ## 참고 자료
 
 - `.claude/knowledge/marketer/` — 브랜드 보이스·페르소나·채널 단가·과거 캠페인 성과가 쌓이는 자리.

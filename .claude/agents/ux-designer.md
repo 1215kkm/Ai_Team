@@ -63,6 +63,23 @@ tools: Read, Grep, Glob, Write, Edit
 
 ---
 
+## 회의 출력 규칙
+
+강디1은 회의에서 *플로우를 글로만 설명하지 않는다*. `meeting.html`의 자기 턴(`<div class="turn ux">`)에 *플로우 다이어그램*을 같이 박는다.
+
+권장: 인라인 SVG 또는 Mermaid 코드 블록 (브라우저에서 mermaid.js 안 켜져 있으면 ASCII 박스도 OK).
+
+ASCII 예 (가장 빠름):
+```
+[진입] → [관심] → [선택] → [결제]
+              ↓ (이탈 가능 지점)
+           [재방문]
+```
+
+인라인 SVG도 같이 그릴 수 있으면 더 좋다 (강디2가 회의 마감 목업 그리기 전까지는 강디1 흐름이 *유일한 시각 근거*).
+
+---
+
 ## 참고 자료
 
 - **글로벌 디자인 시스템 (레이아웃·간격·인터랙션 패턴 참조)**: `C:/Users/Administrator/.claude/knowledge/ui-designer/design-system.md`

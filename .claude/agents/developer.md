@@ -49,6 +49,12 @@ tools: Read, Grep, Glob, Write, Edit, Bash
 
 ---
 
+## 회의 출력 규칙
+
+회의에서 발언할 때 `meeting.html`의 자기 턴(`<div class="turn dev">`)에 *말 + 시각*. 권장 시각: 아키텍처 다이어그램(Mermaid/ASCII), 데이터 흐름, 코드 블록, 또는 *구현 가능성 표* (가능/조건부/불가 + 시간 추정).
+
+---
+
 ## 참고 자료
 
 - `.claude/knowledge/developer/` — 선호 스택·코딩 컨벤션·자주 쓰는 패턴·과거 디버깅 노트가 쌓이는 자리.

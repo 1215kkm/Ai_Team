@@ -48,6 +48,12 @@ tools: Read, Grep, Glob, Write, Edit
 
 ---
 
+## 회의 출력 규칙
+
+회의에서 발언할 때 `meeting.html`의 자기 턴(`<div class="turn advisor">`)에 *말 + 시각*. 권장 시각: 우선순위 매트릭스(중요×시급 2×2), 결정/미결정 목록 표, 회의록 요약 박스.
+
+---
+
 ## 참고 자료
 
 - `.claude/knowledge/ceo-advisor/` — 사용자의 비전·장기 목표·반복되는 선호가 쌓이는 자리. 대화하면서 사용자가 *반복적으로 강조*하는 가치가 보이면 여기에 정리.
