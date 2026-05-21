@@ -178,12 +178,37 @@ tg_call() {
   fi
 }
 
-log "→ 요약 텍스트 전송"
+# 회의 식별자 = 폴더명 (callback_data에 박아 polling에서 매칭)
+MEETING_ID=$(basename "$MEETING_DIR")
+# 4096byte 컷이 콜백 데이터에 영향 없도록 ID는 짧게
+SHORT_ID=$(echo -n "$MEETING_ID" | head -c 60)
+
+# inline keyboard JSON
+# 버튼: 진행 / 보류 / 🧠 결정 저장 / 🧠 전체 저장 / 회의 다시
+KEYBOARD=$(cat <<JSON
+{"inline_keyboard":[
+  [
+    {"text":"✅ 진행","callback_data":"go:${SHORT_ID}"},
+    {"text":"⏸ 보류","callback_data":"pause:${SHORT_ID}"}
+  ],
+  [
+    {"text":"🧠 결정만 강팀에 저장","callback_data":"learn-d:${SHORT_ID}"},
+    {"text":"🧠 전체 저장","callback_data":"learn-all:${SHORT_ID}"}
+  ],
+  [
+    {"text":"🔄 회의 다시","callback_data":"redo:${SHORT_ID}"}
+  ]
+]}
+JSON
+)
+
+log "→ 요약 텍스트 + 버튼 전송"
 tg_call sendMessage \
   --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
   --data-urlencode "text=${MESSAGE}" \
   --data-urlencode "parse_mode=HTML" \
-  --data-urlencode "disable_web_page_preview=true"
+  --data-urlencode "disable_web_page_preview=true" \
+  --data-urlencode "reply_markup=${KEYBOARD}"
 
 if [[ $NO_HTML -eq 0 ]]; then
   log "→ meeting.html 전송"

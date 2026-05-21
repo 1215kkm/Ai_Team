@@ -1,0 +1,191 @@
+# 강팀 텔레그램 → GitHub 트리거 (15분 polling)
+#
+# 텔레그램 봇에 들어온 메시지·버튼 클릭을 읽어 적절한 GitHub 액션으로 변환:
+#   • inline 버튼 "✅ 진행"      → 이 레포에 issue 생성 (label: team:proceed)
+#   • inline 버튼 "⏸ 보류"      → state 파일에 paused 마킹
+#   • inline 버튼 "🧠 결정 저장" → 이 레포(Ai_Team)에 PR 생성 (knowledge/team-memory 에 추가)
+#   • 텍스트 "/회의시작 [주제]"   → issue 생성 (label: team:meeting)
+#   • 텍스트 "/상태"             → state.json 을 텔레그램으로 답신
+#
+# 필요한 GitHub Secrets:
+#   TELEGRAM_BOT_TOKEN   — BotFather 토큰
+#   TELEGRAM_CHAT_ID     — CEO chat_id (다른 사람 메시지 차단용)
+#   AI_TEAM_TOKEN        — fine-grained PAT (1215kkm/Ai_Team 의 issue:write 권한).
+#                          이게 *없으면* 학습 루프(🧠 저장 버튼)만 안 작동하고
+#                          나머지 명령은 정상 동작.
+#
+# 마지막 update_id 는 레포 변수(repository variable)로 저장 (Actions write 권한 필요).
+
+name: telegram-poll
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # 15분마다
+  workflow_dispatch:           # 수동 실행도 가능
+
+permissions:
+  contents: write       # team-memory PR 생성용
+  issues: write         # 명령 issue 생성용
+  actions: write        # repo variable update 용 (gh CLI)
+  pull-requests: write
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read last update_id
+        id: last
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # repository variable LAST_TG_UPDATE_ID 가져오기 (없으면 0)
+          val=$(gh variable list --json name,value -q '.[] | select(.name=="LAST_TG_UPDATE_ID") | .value' 2>/dev/null || echo "0")
+          [[ -z "$val" ]] && val=0
+          echo "last_id=$val" >> "$GITHUB_OUTPUT"
+          echo "마지막 update_id: $val"
+
+      - name: Fetch Telegram updates
+        id: tg
+        env:
+          TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          LAST_ID: ${{ steps.last.outputs.last_id }}
+        run: |
+          # offset = last_id + 1 (last_id 이후의 업데이트만)
+          OFFSET=$((LAST_ID + 1))
+          resp=$(curl -sS --max-time 20 \
+            "https://api.telegram.org/bot${TOKEN}/getUpdates?offset=${OFFSET}&timeout=0&allowed_updates=%5B%22message%22%2C%22callback_query%22%5D")
+          if ! echo "$resp" | jq -e '.ok' >/dev/null; then
+            echo "getUpdates 실패: $resp" >&2
+            exit 1
+          fi
+          echo "$resp" > updates.json
+          count=$(jq '.result | length' updates.json)
+          echo "받은 업데이트: $count 건"
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+
+      - name: Process updates
+        if: steps.tg.outputs.count != '0'
+        env:
+          TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          ALLOWED_CHAT: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          MAX_ID=0
+          jq -c '.result[]' updates.json | while read -r upd; do
+            uid=$(echo "$upd" | jq -r '.update_id')
+            [[ $uid -gt $MAX_ID ]] && MAX_ID=$uid
+
+            # ───── A) callback_query (inline 버튼 클릭) ─────
+            if echo "$upd" | jq -e '.callback_query' >/dev/null; then
+              cb_id=$(echo "$upd" | jq -r '.callback_query.id')
+              chat=$(echo "$upd" | jq -r '.callback_query.message.chat.id')
+              data=$(echo "$upd" | jq -r '.callback_query.data')
+
+              [[ "$chat" != "$ALLOWED_CHAT" ]] && { echo "  ignored (chat $chat)"; continue; }
+
+              action="${data%%:*}"
+              meeting_id="${data#*:}"
+              echo "버튼: $action / 회의: $meeting_id"
+
+              # 콜백 즉시 응답 (텔레그램 spinner 해제)
+              curl -sS -X POST "https://api.telegram.org/bot${TOKEN}/answerCallbackQuery" \
+                --data-urlencode "callback_query_id=$cb_id" \
+                --data-urlencode "text=처리 중..." >/dev/null
+
+              case "$action" in
+                go)
+                  # "진행" → 이 레포에 issue 생성 (Claude Code on the web 트리거)
+                  gh issue create \
+                    --repo "${{ github.repository }}" \
+                    --title "[강팀] 진행 요청 ($meeting_id)" \
+                    --body "텔레그램에서 ✅ 진행 버튼 클릭됨. 회의: \`$meeting_id\`.\\n\\n강팀장: 현재 .ai-team/state.json 을 읽고 /진행 슬래시 커맨드 프로토콜대로 다음 단계 실행해주세요." \
+                    --label "team:proceed" || true
+                  ;;
+                pause)
+                  gh issue create \
+                    --repo "${{ github.repository }}" \
+                    --title "[강팀] 보류 ($meeting_id)" \
+                    --body "텔레그램에서 ⏸ 보류 버튼 클릭됨. .ai-team/state.json 의 stage 를 'paused' 로." \
+                    --label "team:pause" || true
+                  ;;
+                learn-d|learn-all)
+                  scope="결정만"
+                  [[ "$action" == "learn-all" ]] && scope="전체 회의"
+                  # Ai_Team 레포에 추가 PR 트리거용 이슈 — 강팀장이 이슈 받으면 PR 생성
+                  # cross-repo 쓰기는 AI_TEAM_TOKEN (PAT) 필요. 없으면 텔레그램으로 안내만.
+                  if [[ -n "${{ secrets.AI_TEAM_TOKEN }}" ]]; then
+                    GH_TOKEN="${{ secrets.AI_TEAM_TOKEN }}" gh issue create \
+                      --repo "1215kkm/Ai_Team" \
+                      --title "[강팀 학습] $scope 저장 요청 ($meeting_id)" \
+                      --body "텔레그램에서 🧠 저장 버튼 클릭. 출처: \`${{ github.repository }}\` 의 회의 \`$meeting_id\`.\\n\\n강팀장 액션:\\n1. 원본 회의록 회수 (해당 레포에서)\\n2. ${scope} 추출\\n3. \`.claude/knowledge/team-memory/\` 에 마크다운 파일로 추가 (파일명: \`$meeting_id.md\`)\\n4. PR 생성 — CEO 머지 시 다음 프로젝트부터 학습된 강팀" \
+                      --label "team:learn" || true
+                  else
+                    curl -sS -X POST "https://api.telegram.org/bot${TOKEN}/sendMessage" \
+                      --data-urlencode "chat_id=$chat" \
+                      --data-urlencode "text=⚠️ 학습 루프 비활성: AI_TEAM_TOKEN 시크릿이 없습니다. docs/auto-workflow.md 의 '학습 토큰 설정' 단계를 참고해 PAT 등록 후 다시 시도해주세요." >/dev/null
+                  fi
+                  ;;
+                redo)
+                  gh issue create \
+                    --repo "${{ github.repository }}" \
+                    --title "[강팀] 회의 다시 ($meeting_id)" \
+                    --body "텔레그램에서 🔄 회의 다시 버튼 클릭. 같은 안건으로 회의 재진행 요청." \
+                    --label "team:meeting" || true
+                  ;;
+              esac
+              continue
+            fi
+
+            # ───── B) 일반 메시지 ─────
+            if echo "$upd" | jq -e '.message' >/dev/null; then
+              chat=$(echo "$upd" | jq -r '.message.chat.id')
+              text=$(echo "$upd" | jq -r '.message.text // ""')
+
+              [[ "$chat" != "$ALLOWED_CHAT" ]] && { echo "  ignored (chat $chat)"; continue; }
+              [[ -z "$text" ]] && continue
+
+              echo "메시지: $text"
+              case "$text" in
+                "/회의시작"*|"회의 시작"*|"회의시작"*)
+                  topic=$(echo "$text" | sed -E 's|^[/]?회의[ ]?시작[ ]?||')
+                  gh issue create \
+                    --repo "${{ github.repository }}" \
+                    --title "[강팀] 회의 시작 요청${topic:+ — $topic}" \
+                    --body "텔레그램에서 회의 시작 명령. 주제: ${topic:-(자동 선정)}\\n\\n강팀장: \`/회의시작 $topic\` 슬래시 커맨드 프로토콜 수행." \
+                    --label "team:meeting" || true
+                  ;;
+                "/진행"*|"진행해"*|"다음"*)
+                  gh issue create \
+                    --repo "${{ github.repository }}" \
+                    --title "[강팀] 진행 요청" \
+                    --body "텔레그램에서 진행 명령. \`/진행\` 슬래시 커맨드 프로토콜 수행." \
+                    --label "team:proceed" || true
+                  ;;
+                "/상태"*|"상태")
+                  state=$(cat .ai-team/state.json 2>/dev/null || echo "{}")
+                  msg=$(echo "$state" | jq -r '"단계: \(.stage // "unknown")\\n회의: \(.meeting // "-")\\n다음 액션: \(.actions | length)건"')
+                  curl -sS -X POST "https://api.telegram.org/bot${TOKEN}/sendMessage" \
+                    --data-urlencode "chat_id=$chat" \
+                    --data-urlencode "text=📊 강팀 상태\\n$msg" >/dev/null
+                  ;;
+                *)
+                  echo "  (모르는 명령 — 무시)"
+                  ;;
+              esac
+            fi
+          done
+          echo "max_id=$MAX_ID" >> "$GITHUB_OUTPUT"
+
+      - name: Update last update_id
+        if: steps.tg.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          max=$(jq '[.result[].update_id] | max // 0' updates.json)
+          if [[ "$max" != "null" && "$max" != "0" ]]; then
+            gh variable set LAST_TG_UPDATE_ID --body "$max" --repo "${{ github.repository }}"
+            echo "저장: LAST_TG_UPDATE_ID=$max"
+          fi
