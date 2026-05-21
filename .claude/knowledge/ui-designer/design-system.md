@@ -1,299 +1,521 @@
-# 글로벌 디자인 시스템 (Crowny 베이스)
+# Crowny Class · 크라톡(CrowTalk) 디자인 시스템
 
-> **적용 범위**: Ai팀이 작업하는 *모든* 프로젝트의 디폴트 디자인 시스템.
+> **적용 범위**: 강팀이 작업하는 *모든* 프로젝트의 **기본 디자인 시스템**.
 > **오버라이드**: 프로젝트별로 다른 디자인이 필요하면 그 프로젝트의 `./.claude/knowledge/ui-designer/`에 별도 파일을 두면 그것이 우선.
-> **UI/UX 모두 참조**: UI는 색·타이포·컴포넌트 명세로, UX는 레이아웃·간격·인터랙션 패턴으로.
+> **PC·모바일 동일 스타일** (브레이크포인트로만 분기).
+> 모든 색상·간격·폰트·컴포넌트가 **하나의 시스템**으로 통일되어 있으니 새 페이지 만들 때 이 문서를 그대로 따라주세요.
 
 ---
 
-## 1. 색상
+## 1. 브랜드 아이덴티티
 
-### 메인 팔레트
-| 이름 | HEX |
-|---|---|
-| 메인 보라 | `#6C3CE1` |
-| 핑크 | `#D63384` |
-| 오렌지 | `#E8590C` |
-| 시안 | `#0EA5E9` |
-| 초록 | `#059669` |
+- 서비스명(메인): **Crowny Class** (학원·강사·학생 통합 케어 프로그램)
+- 서비스명(커뮤니티 서브브랜드): **크라톡 (CrowTalk)**
+- 슬로건: "강사 강의 플랫폼"
+- 핵심 컬러: 보라(Primary) → 분홍(Secondary) 그라데이션
+- 분위기: 친근·밝음·생동감·정돈됨. 학습 공간이라 차분하되 지루하지 않게.
 
-### 배경 그라데이션 (메인 화면 상단)
-- 시작: `#5B2FD6`
-- 중간: `#7C4DFF`
-- 끝: `#9B72FF`
-- 방향: **165도** (좌상 → 우하)
+---
 
-### 텍스트
-| 이름 | HEX | 용도 |
+## 2. 색상 팔레트 (Color Tokens)
+
+### 2.1 브랜드 컬러
+
+| 토큰 | HEX | 용도 |
 |---|---|---|
-| 기본 | `#1E1B4B` | 거의 검정 |
-| 보조 | `#4B5563` | 회색 |
-| 흐린 | `#9CA3AF` | 연한 회색 / placeholder |
-| 아주 흐린 | `#D1D5DB` | 비활성 |
+| `--primary` | `#8A38F5` | 메인 보라. 강조·CTA·링크·활성 상태 |
+| `--primary-dark` | `#7030D4` | 호버·눌림 |
+| `--primary-light` | `#A855F7` | 보조 강조·배지 |
+| `--secondary` | `#D53A6B` | 분홍. 그라데이션 끝 색, 보조 강조 |
+| `--secondary-light` | `#F472B6` | 부드러운 분홍 강조 |
 
-### 카드/배경
-- 카드 배경: `#F9F7FF` (연보라)
-- 연보라 배경: `#F3F0FF`
-- 보라 테두리: `#EDE9FE`
-
-### 그라데이션 아이콘박스 4종
-```css
-핑크:   linear-gradient(135deg, #F43F5E, #E8590C)
-블루:   linear-gradient(135deg, #0EA5E9, #2563EB)
-오렌지: linear-gradient(135deg, #F59E0B, #E8590C)
-퍼플:   linear-gradient(135deg, #7C4DFF, #5B2FD6)
-```
-
-### 메인 버튼
-- 배경: `linear-gradient(135deg, #6C3CE1, #D63384)`
-- 그림자: `0 4px 16px rgba(108,60,225,0.4)`
-
----
-
-## 2. 폰트
-
-| 용도 | 폰트 |
-|---|---|
-| 기본 | `'Noto Sans KR', -apple-system, sans-serif` |
-| 아이콘 | `Material Icons Round` (Google Fonts CDN) |
-| 타이틀 (선택) | `'Paperlogy'` (홈 화면 로고용) |
-
-### 크기 체계
-| 용도 | 크기 / weight |
-|---|---|
-| 타이틀 | 48px / 900 |
-| 페이지 제목 | 18px / 800 |
-| 섹션 제목 | 17px / 800 |
-| 본문 | 14px / 400~600 |
-| 보조 텍스트 | 12px / 400 |
-| 작은 텍스트 | 10px / 500 |
-| 독바 라벨 | 10px / 600 |
-
-### 글자 크기 전역 조절
-- CSS 변수 `--fs`로 전역 조절
-- 각 요소: `calc(기본px + var(--fs) * 1px)`
-- 기본값: **+3** (30대 기준)
-- 범위: **-3 ~ +6**
-
----
-
-## 3. 둥글기 (Border Radius)
-
-| 요소 | 값 |
-|---|---|
-| 작은 (칩, 배지) | 8~10px |
-| 중간 (버튼, 입력, 아이콘박스) | 12~14px |
-| 카드 (목록 아이템) | 16~18px |
-| 큰 카드 (팝업, 아바타) | 20~24px |
-| 시트 (바텀시트 상단) | `32px 32px 0 0` |
-
----
-
-## 4. 그림자 (Box Shadow)
+**메인 그라데이션** (모든 주요 CTA·로고·배지 등에 사용):
 
 ```css
-약한:    0 2px 8px rgba(0,0,0,0.06)
-보통:    0 4px 16px rgba(108,60,225,0.1)
-강한:    0 4px 16px rgba(108,60,225,0.4)   /* 메인 버튼 */
-네비바:  0 -2px 20px rgba(0,0,0,0.04)
+--gradient: linear-gradient(135deg, #8A38F5 0%, #D53A6B 100%);
 ```
 
----
+`--primary-rgb`: `138, 56, 245` (rgba 효과·그림자용)
 
-## 5. 레이아웃 (모바일 앱 기준)
+### 2.2 다크 영역 (사이드바·네비)
 
-| 항목 | 값 |
-|---|---|
-| 최대 너비 | 390px |
-| 페이지 패딩 | 24px 좌우 |
-| 시트 패딩 | 28px 24px 100px (하단 네비 공간) |
-| 아이템 간격 | 14~16px |
-| 섹션 간격 | 24~28px |
-
----
-
-## 6. 핵심 컴포넌트
-
-### 바텀 네비게이션 (4탭)
-- 배경: `white`
-- 높이: 자동 (safe-area 포함)
-- 그림자: `0 -2px 20px rgba(0,0,0,0.04)`
-- **활성 탭**: 보라색 + 아이콘에 연보라 pill 배경
-  - pill 배경: `linear-gradient(135deg, rgba(123,97,255,0.12), rgba(232,69,160,0.08))`
-  - pill 둥글기: 12px
-  - pill 패딩: 4px 16px
-- **비활성 탭**: `#C4B5FD` (연보라)
-- 라벨: 10px / 600
-- 아이콘: 24px
-
-### 보라 배경 + 흰색 시트 구조
-- **상단**: 보라 그라데이션 배경 (165deg)
-  - 헤더: 제목(18px/800) + 좌우 아이콘 버튼(40x40)
-  - 아이콘 버튼: `rgba(255,255,255,0.2)` 배경, 14px 둥글기
-- **하단**: 흰색 시트
-  - `border-radius: 32px 32px 0 0`
-  - handle: 36x4px, `#E5E7EB`, 둥글기 2px, 가운데 정렬
-
-### 글래스 카드
-```css
-background: rgba(255,255,255,0.18);
-backdrop-filter: blur(10px);
-border: 1px solid rgba(255,255,255,0.15);
-border-radius: 16px;
-```
-
-### 입력 필드
-- 테두리: `1px solid #D1D5DB`
-- 둥글기: 12px (일반) / 20px (채팅 입력)
-- 포커스: `border-color: #6C3CE1`
-- 패딩: 12px 14px
-- placeholder 색: `#9CA3AF`
-
-### 칩 (필터)
-**비활성**
-- 배경: `rgba(255,255,255,0.1)`
-- 테두리: `1px solid rgba(255,255,255,0.3)`
-- 색상: `rgba(255,255,255,0.8)`
-
-**활성**
-- 배경: `white`
-- 테두리: `white`
-- 색상: `#6C3CE1` (보라)
-
-공통: 둥글기 20px, 패딩 8px 16px, 12px / 600
-
-### 채팅 말풍선
-**상대방**
-- 배경: `#F3F4F6`
-- 둥글기: `18px 18px 18px 4px` (좌하단만 각진)
-- 글자: 13px / `#1E1B4B`
-
-**내 메시지**
-- 배경: `linear-gradient(135deg, #6C3CE1, #D63384)`
-- 둥글기: `18px 18px 4px 18px` (우하단만 각진)
-- 글자: 13px / white
-
-**시스템 메시지**
-- 배경: `#F3F4F6`
-- 둥글기: 20px
-- 글자: 11px / `#6B7280`
-- 가운데 정렬
-
-### 매너 태그 (3색)
-| 종류 | 배경 | 색상 |
+| 토큰 | HEX | 용도 |
 |---|---|---|
-| 빨강 | `rgba(244,63,94,0.1)` | `#E11D48` |
-| 보라 | `rgba(123,97,255,0.08)` | `#6C3CE1` |
-| 시안 | `rgba(54,209,220,0.08)` | `#0EA5E9` |
+| `--dark-bg` | `#1B1D21` | 사이드바 메인 배경 |
+| `--dark-secondary` | `#1A1C22` | 사이드바 보조 |
+| `--dark-tertiary` | `#2B2D35` | 다크 위 호버 |
+| `--dark-border` | `#3D3D54` | 다크 영역 구분선 |
 
-공통: 둥글기 12px, 패딩 7px 12px, 11px / 600, 아이콘 14px
+### 2.3 라이트 영역 (콘텐츠)
 
-### 한강 온도 바
-- 배경 바: `#EDE9FE`
-- 진행 바: `linear-gradient(90deg, #6C3CE1, #D63384)`
-- 높이: 5px
-- 둥글기: 3px
-- 온도 숫자: 18px / 800 / `#E8590C` (오렌지)
-
-### 모임 상태 배지
-| 상태 | 배경 | 색상 |
+| 토큰 | HEX | 용도 |
 |---|---|---|
-| 🟢 모집중 | `#ECFDF5` | `#059669` |
-| 🟡 곧시작 | `#FFFBEB` | `#D97706` |
-| 🔴 진행중 | `#FEF2F2` | `#DC2626` |
-| ⚫ 종료 | `#F3F4F6` | `#6B7280` |
+| `--light-bg` | `#F3F4F6` | 페이지 배경 |
+| `--light-card` | `#FFFFFF` | 카드·모달·시트 배경 |
+| `--light-border` | `#E5E7EB` | 카드 테두리·구분선 |
+| `--light-hover` | `#F9FAFB` | 라이트 위 호버 |
 
-공통: 둥글기 6px, 패딩 2px 8px, 10px / 700
+### 2.4 텍스트
 
-### 레이더 뷰 (모집 상황)
-**원형 레이더**
-- 크기: 280x280px
-- 배경: `radial-gradient(circle, rgba(108,60,225,0.03) → 0.08 → 0.15)`
-- 테두리: `2px solid rgba(108,60,225,0.2)`
-- 동심원: `1px solid rgba(108,60,225,0.1)`
+| 토큰 | HEX | 용도 |
+|---|---|---|
+| `--text-primary` | `#FFFFFF` | 다크 배경 위 텍스트 |
+| `--text-dark` | `#1F2937` | 라이트 배경 위 본문 |
+| `--text-secondary` | `#9CA3AF` | 다크 위 보조 |
+| `--text-muted` | `#6B7280` | 라이트 위 약함 (캡션·메타) |
 
-**Sweep 애니메이션**
-```css
-background: conic-gradient(transparent 0deg, rgba(108,60,225,0.15) 30deg, transparent 60deg);
-animation: rotate 3s linear infinite;
-```
+### 2.5 상태(Semantic) 컬러 — 항상 한 쌍 (메인 + light 배경)
 
-**중앙 점**: 20px, `#6C3CE1`, 흰 테두리 3px, 그림자
-**참여 아이콘**: 👋 / 배경 `rgba(108,60,225,0.12)` / 32x32
-**관심 아이콘**: ❤️ / 배경 `rgba(214,51,132,0.12)` / 32x32
+| 상태 | 메인 | 배경(연한) | 용도 |
+|---|---|---|---|
+| 성공 | `#22C55E` | `#DCFCE7` | 완료·정상 |
+| 경고 | `#F59E0B` | `#FEF3C7` | 주의·확인 필요 |
+| 에러 | `#EF4444` | `#FEE2E2` | 실패·삭제·차단 |
+| 정보 | `#3B82F6` | `#DBEAFE` | 안내·중립 알림 |
+
+### 2.6 분류용 컬러 (Chip · 카테고리 라벨)
+
+본 시스템은 카테고리 칩 색을 **약 10%~12% opacity 배경 + 진한 텍스트** 패턴으로 사용:
+
+| 분류 예 | 배경 | 텍스트 |
+|---|---|---|
+| 보라 (브랜드) | `rgba(138, 56, 245, 0.10)` | `#6B46C1` |
+| 파랑 | `rgba(59, 130, 246, 0.10)` | `#1D4ED8` |
+| 초록 | `rgba(34, 197, 94, 0.10)` | `#15803D` |
+| 주황 | `rgba(245, 158, 11, 0.12)` | `#B45309` |
+| 분홍 | `rgba(236, 72, 153, 0.10)` | `#BE185D` |
+| 청록 | `rgba(14, 165, 233, 0.25)` | `#7DD3FC` (다크용) |
 
 ---
 
-## 7. 애니메이션
+## 3. 타이포그래피
 
-| 종류 | 정의 |
-|---|---|
-| 페이지 전환 | `fadeIn 0.25s ease` (opacity 0→1, translateY 6→0) |
-| 카운트다운 | `scale(2) → scale(1)` + opacity, 0.8s |
-| 결과 바운스 | `scale(0) → scale(1.1) → scale(1)`, `cubic-bezier(0.68, -0.55, 0.27, 1.55)` |
-| 레이더 sweep | `rotate 360deg`, 3s linear infinite |
+### 3.1 폰트 패밀리
+
+- **본문/UI**: `'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`
+  - CDN: `https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css`
+- **로고/장식 텍스트**: `'Agbalumo', cursive`
+  - CDN: `https://fonts.googleapis.com/css2?family=Agbalumo&display=swap`
+  - 사용: 로고 "Crowny Class" / "크라톡" 만. 본문 X.
+
+### 3.2 폰트 사이즈 토큰
+
+| 토큰 | px | 용도 |
+|---|---|---|
+| `--font-xs` | 11px | 캡션·뱃지·아주 작은 라벨 |
+| `--font-sm` | 13px | 보조 텍스트·작은 버튼 |
+| `--font-md` | 14px | 본문·일반 버튼 |
+| `--font-lg` | 16px | 사이드바 메뉴·강조 본문 |
+| `--font-xl` | 18px | 카드 제목·작은 헤딩 |
+| `--font-2xl` | 24px | 섹션 제목·H2 |
+| `--font-3xl` | 28px | 페이지 H1 |
+
+### 3.3 굵기
+
+- 본문: `font-weight: 400~500`
+- 강조: `600` (semibold)
+- 헤딩: `700` (bold)
+- 매우 강한 헤딩: `800` (extrabold) — 마케팅 페이지 한정
+
+### 3.4 줄간격
+
+- 본문: `line-height: 1.6`
+- 헤딩: `line-height: 1.3`
+- UI 라벨: `line-height: 1.4`
 
 ---
 
-## 8. CDN 링크
+## 4. 간격 (Spacing)
+
+8픽셀 그리드 기반:
+
+| 토큰 | px | 용도 |
+|---|---|---|
+| `--spacing-xs` | 4px | 인라인 요소 사이 |
+| `--spacing-sm` | 8px | 작은 요소 묶음 |
+| `--spacing-md` | 16px | 카드 내부 패딩·블록 간격 |
+| `--spacing-lg` | 24px | 섹션 간격·카드 사이 |
+| `--spacing-xl` | 32px | 페이지 큰 섹션 |
+
+> Tailwind 사용 시 동등치: `xs=1, sm=2, md=4, lg=6, xl=8`
+
+---
+
+## 5. 모서리 (Border Radius)
+
+| 토큰 | px | 용도 |
+|---|---|---|
+| `--radius-sm` | 6px | 작은 인풋·태그·뱃지 |
+| `--radius-md` | 10px | **버튼·인풋 기본** |
+| `--radius-lg` | 12px | 카드 내부 요소·메뉴 항목 |
+| `--radius-xl` | 16px | **카드·모달 기본** |
+| `--radius-2xl` | 20px | 큰 카드·히어로 |
+| `--radius-full` | 9999px | 아바타·원형 뱃지·필 칩 |
+
+---
+
+## 6. 그림자 (Shadow)
+
+| 토큰 | 값 | 용도 |
+|---|---|---|
+| `--shadow-sm` | `0 1px 2px rgba(0,0,0,0.05)` | 보더 대체용 약한 띄움 |
+| `--shadow-md` | `0 4px 6px rgba(0,0,0,0.07)` | 카드 기본 |
+| `--shadow-lg` | `0 10px 15px rgba(0,0,0,0.10)` | 떠 있는 카드·드롭다운 |
+| `--shadow-xl` | `0 20px 25px rgba(0,0,0,0.15)` | 모달·중요 카드 |
+| `--shadow-primary` | `0 4px 14px rgba(138, 56, 245, 0.35)` | 보라 강조 CTA 호버 |
+
+---
+
+## 7. 테두리 (Border)
+
+- 굵기: `1px` 고정
+- 라이트 위: `#E5E7EB` (`--light-border`)
+- 다크 위: `#3D3D54` (`--dark-border`)
+- 활성/포커스: `--primary` (보라)
+- 에러 상태: `--error` (`#EF4444`)
+
+---
+
+## 8. 트랜지션
+
+| 토큰 | 값 | 용도 |
+|---|---|---|
+| `--transition-fast` | `0.15s ease` | 호버·작은 상호작용 |
+| `--transition-normal` | `0.2s ease` | 버튼·카드 변화 (기본) |
+| `--transition-slow` | `0.3s ease` | 모달 등장·큰 레이아웃 변화 |
+
+---
+
+## 9. 레이아웃 / 반응형
+
+### 9.1 핵심 치수
+
+- 사이드바 너비: **260px** (`--sidebar-width`)
+- 헤더 높이: **64px** (`--header-height`)
+- 콘텐츠 최대 너비: **1200~1280px** 중앙 정렬
+- 모달 기본 너비: **520px** (모바일에서는 `90vw` 이내)
+
+### 9.2 브레이크포인트 (Tailwind 호환)
+
+| 이름 | 폭 | 분기점 |
+|---|---|---|
+| Mobile | < 640px | 기본 |
+| Tablet | ≥ 640px | `sm:` |
+| Laptop | ≥ 1024px | `lg:` |
+| Desktop | ≥ 1280px | `xl:` |
+
+### 9.3 모바일·PC 동일 룰
+
+- **색상·간격·폰트 토큰은 동일.** 모바일이라고 색·폰트를 바꾸지 않음.
+- 모바일에선 사이드바를 **숨기고 하단 탭바**(safe-bottom 적용)로 대체.
+- 모달은 모바일에서 바닥 시트 스타일로 (max-width: 100%, border-radius 상단만 둥글게).
+- 카드 그리드: `grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))` — 모바일 자동 1열.
+- 터치 타겟 최소 **44×44px**.
+
+---
+
+## 10. 컴포넌트
+
+### 10.1 버튼
 
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<!-- Primary (CTA) - 그라데이션 -->
+<button class="btn btn-primary">저장</button>
 ```
 
-### Material Icons 사용법
+- 배경: `linear-gradient(135deg, var(--primary), var(--secondary))`
+- 텍스트: 흰색
+- 패딩: `10px 20px`
+- radius: `10px`
+- font: 14px / weight 600
+- 호버: `translateY(-2px)` + `box-shadow: 0 4px 12px rgba(138, 56, 245, 0.4)`
+
 ```html
-<span class="mi">icon_name</span>
+<!-- Secondary - 회색 -->
+<button class="btn btn-secondary">취소</button>
 ```
+
+- 배경: `#F3F4F6` (호버 `#E5E7EB`)
+- 텍스트: `#374151`
+
+```html
+<!-- Outline -->
+<button class="btn btn-outline">더보기</button>
+```
+
+- 배경: transparent · 보더 `1px solid #D1D5DB`
+
+**크기 변형**:
+- 기본: 위와 같음
+- `.btn-sm`: padding `6px 12px`, font 13px
+- `.btn-icon`: 36×36 정사각형, radius 8px
+
+### 10.2 카드
+
+```html
+<div class="card">
+  <h3>제목</h3>
+  <p>내용</p>
+</div>
+```
+
+- 배경: `#FFFFFF`
+- 보더: `1px solid #E5E7EB`
+- radius: 16px (`--radius-xl`)
+- 패딩: 16~20px
+- 호버 가능 카드: `box-shadow: var(--shadow-md)` + `transform: translateY(-1px)`
+
+### 10.3 입력 (Input / Select / Textarea)
+
+- 배경: `#FFFFFF`
+- 보더: `1px solid #E5E7EB`
+- 포커스 보더: `var(--primary)` + `box-shadow: 0 0 0 3px rgba(138, 56, 245, 0.12)`
+- radius: 10px
+- 패딩: 10px 14px
+- font: 14px
+
+### 10.4 모달
+
+- 배경 오버레이: `rgba(0, 0, 0, 0.5)` + `backdrop-filter: blur(4px)` (선택)
+- 콘텐츠: 흰색 카드, radius **16px**, max-width 520px
+- 패딩: 헤더 16~20px, 본문 16~20px, 푸터 16px (오른쪽 정렬 버튼)
+- 모바일: 하단 시트 (`bottom: 0`, radius 상단만, 본문 스크롤)
+
+### 10.5 칩(Tag / Badge)
+
+```html
+<span class="chip chip-purple">강좌</span>
+```
+
+- 패딩: `2px 8px` (작은) / `4px 12px` (큰)
+- radius: full
+- font: 11~12px / weight 600
+- 색상: 위 "2.6 분류용 컬러" 패턴
+
+### 10.6 토스트 / 알림
+
+- 위치: 우측 하단, 16px 여백
+- 배경: `#1B1D21` (다크) 또는 흰색 카드
+- 자동 닫기: **2초**
+- 좌측에 아이콘(성공/에러/정보) + 본문 + 닫기 버튼
+- 진입: `slide-up + fade-in 0.2s`
+
+### 10.7 탭바
+
+- 라이트 위: 비활성 텍스트 `#6B7280`, 활성 텍스트 `--primary`, 활성 하단 `2px solid --primary`
+- 다크 위: 비활성 `#9CA3AF`, 활성 `--primary-light`
+- 패딩: `12px 20px`
+
+### 10.8 네비게이션 (헤더/사이드바)
+
+- 헤더: 흰색 배경, 높이 64px, `box-shadow: 0 1px 3px rgba(0,0,0,0.05)`
+- 사이드바: 다크 `#1B1D21`, 너비 260px, 좌측 고정
+- 메뉴 항목: 패딩 `12px 16px`, radius 12px, font 16px / weight 500
+  - 호버: `rgba(255,255,255,0.06)`
+  - 활성: `rgba(139, 92, 246, 0.15)`, 텍스트 `#A78BFA`
+
+---
+
+## 11. 아이콘
+
+- 라이브러리: **Lucide Icons** (`https://unpkg.com/lucide@latest`)
+- 사용 패턴: `<i data-lucide="아이콘이름"></i>` → `lucide.createIcons()` 호출
+- 기본 크기: 16~20px
+- 색상: 텍스트 색상 상속 (`currentColor`)
+
+자주 쓰는 아이콘:
+- 액션: `plus`, `pencil`, `trash-2`, `download`, `upload`, `link`, `copy`, `refresh-cw`, `x`, `check`
+- 콘텐츠: `book-open`, `video`, `folder`, `file-text`, `paperclip`, `message-square`, `users`, `user`
+- 시스템: `settings`, `bell`, `monitor`, `smartphone`, `globe`, `shield`
+
+---
+
+## 12. 로고 사용 규칙
+
+- **메인 사이트(crownyclass.com)**: `images/logo.png` 또는 `logo.svg`, 텍스트는 Agbalumo 폰트로 "Crowny Class"
+- **크라톡 사이트**: `images/crowtalk-logo.png` (주황 병아리), 너비 **36px**
+- **OG 이미지** (SNS 공유용): 1200×630, 좌측 로고 + 중앙 "강사 강의 플랫폼" 슬로건, 보라 그라데이션 배경
+- **Favicon**: 32×32 ico, **Apple touch**: 180×180 png
+
+---
+
+## 13. 작성 규칙 (Voice & Tone)
+
+- **존댓말** 기본 (마케팅·공지·UI 모두)
+- 짧고 명확하게 — 한 문장당 한 가지 정보
+- 동작 표현은 동사로: "저장", "추가", "삭제" (명사형 X)
+- 영문 약어는 가능하면 한글 보조: "OAuth (인증)"
+- 이모지 절제 — 안내 박스 ⚠️/✅/ℹ️ 외에는 자제
+
+---
+
+## 14. 접근성
+
+- 텍스트/배경 명도 대비 **WCAG AA** (본문 4.5:1, 큰 텍스트 3:1) 이상
+- 인터랙티브 요소 포커스 링: `box-shadow: 0 0 0 3px rgba(138, 56, 245, 0.30)`
+- 이미지 `alt` 텍스트 필수
+- 키보드 탭 순서 자연스럽게
+- Lucide 아이콘 단독 사용 시 `aria-label` 추가
+
+---
+
+## 15. 전체 CSS 변수 한 번에 (복붙용)
+
 ```css
-.mi {
-  font-family: 'Material Icons Round';
-  font-size: 22px;
-  font-weight: normal;
-  font-style: normal;
-  line-height: 1;
-  display: inline-block;
-  -webkit-font-smoothing: antialiased;
+:root {
+  /* ===== 브랜드 ===== */
+  --primary: #8A38F5;
+  --primary-dark: #7030D4;
+  --primary-light: #A855F7;
+  --primary-rgb: 138, 56, 245;
+  --secondary: #D53A6B;
+  --secondary-light: #F472B6;
+  --gradient: linear-gradient(135deg, #8A38F5 0%, #D53A6B 100%);
+
+  /* ===== 다크 (사이드바) ===== */
+  --dark-bg: #1B1D21;
+  --dark-secondary: #1A1C22;
+  --dark-tertiary: #2B2D35;
+  --dark-border: #3D3D54;
+
+  /* ===== 라이트 (콘텐츠) ===== */
+  --light-bg: #F3F4F6;
+  --light-card: #FFFFFF;
+  --light-border: #E5E7EB;
+  --light-hover: #F9FAFB;
+
+  /* ===== 텍스트 ===== */
+  --text-primary: #FFFFFF;
+  --text-dark: #1F2937;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+
+  /* ===== 상태 ===== */
+  --success: #22C55E;  --success-light: #DCFCE7;
+  --warning: #F59E0B;  --warning-light: #FEF3C7;
+  --error:   #EF4444;  --error-light:   #FEE2E2;
+  --info:    #3B82F6;  --info-light:    #DBEAFE;
+
+  /* ===== 모서리 ===== */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* ===== 그림자 ===== */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.10);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+  --shadow-primary: 0 4px 14px rgba(138, 56, 245, 0.35);
+
+  /* ===== 간격 ===== */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* ===== 레이아웃 ===== */
+  --sidebar-width: 260px;
+  --header-height: 64px;
+
+  /* ===== 폰트 크기 ===== */
+  --font-xs:  11px;
+  --font-sm:  13px;
+  --font-md:  14px;
+  --font-lg:  16px;
+  --font-xl:  18px;
+  --font-2xl: 24px;
+  --font-3xl: 28px;
+
+  /* ===== 트랜지션 ===== */
+  --transition-fast:   0.15s ease;
+  --transition-normal: 0.2s ease;
+  --transition-slow:   0.3s ease;
+
+  /* ===== 보더 ===== */
+  --border-color: #E5E7EB;
+  --border: 1px solid #E5E7EB;
+
+  /* ===== 폰트 패밀리 ===== */
+  --font-family-base:    'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-display: 'Agbalumo', cursive; /* 로고·장식 한정 */
+
+  /* ===== 섹션별 공통 간격 ===== */
+  --section-gap:       var(--spacing-xl);  /* 32px */
+  --section-padding-y: var(--spacing-xl);
+  --section-padding-x: var(--spacing-lg);  /* 24px */
+
+  /* ===== 컨텐츠별 공통 간격 ===== */
+  --content-gap:    var(--spacing-md);     /* 16px */
+  --content-padding: var(--spacing-md);
+  --card-padding:    var(--spacing-md);    /* 카드 내부 16~20px */
+
+  /* ===== 콘텐츠 최대 폭 ===== */
+  --content-max-width: 1280px;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-md);
+  line-height: 1.6;
+  color: var(--text-dark);
+  background: var(--light-bg);
 }
 ```
 
 ---
 
-## 9. Flutter 테마 코드 (theme.dart)
+## 16. 신규 페이지/컴포넌트 만들 때 체크리스트
 
-```dart
-class CrownyTheme {
-  static const Color primary = Color(0xFF6C3CE1);
-  static const Color secondary = Color(0xFFD63384);
-  static const Color accent = Color(0xFFE8590C);
-  static const Color textPrimary = Color(0xFF1E1B4B);
-  static const Color textMuted = Color(0xFF9CA3AF);
-  static const Color bgCard = Color(0xFFF9F7FF);
+만들 때마다 이 항목 다 만족하는지 확인:
 
-  static const LinearGradient backgroundGradient = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [Color(0xFF5B2FD6), Color(0xFF7C4DFF), Color(0xFF9B72FF)],
-  );
-
-  static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF6C3CE1), Color(0xFFD63384)],
-  );
-
-  static const double radiusSm = 12.0;
-  static const double radiusMd = 16.0;
-  static const double radiusLg = 24.0;
-  static const double radiusSheet = 32.0;
-  static const double pagePadding = 24.0;
-}
-```
+- [ ] 색상은 **위 토큰 안에서만** 사용 (임의 HEX X)
+- [ ] 폰트는 **Pretendard** (로고만 Agbalumo)
+- [ ] 버튼·카드·인풋의 `border-radius` 가 위 정의대로
+- [ ] CTA는 **Primary 그라데이션** + 호버 시 살짝 떠오름
+- [ ] 보조 액션은 회색 Secondary 버튼
+- [ ] 위험(삭제·종료) 버튼은 빨간 글자·연한 빨강 배경
+- [ ] 카드 그림자는 `--shadow-md`, 모달은 `--shadow-xl`
+- [ ] 모바일에서 사이드바 → 하단 탭바, 모달 → 바닥 시트
+- [ ] 터치 타겟 44px 이상
+- [ ] 아이콘은 Lucide
+- [ ] 한국어, 존댓말, 명확한 동사 라벨
+- [ ] alt 텍스트, 포커스 링, 명도 대비 OK
 
 ---
 
-## 디자이너 에이전트가 이 문서를 사용하는 방법
+## 17. 디자인 시작 시 프롬프트 예시 (다른 AI 에게)
+
+> "Crowny Class 디자인 시스템(첨부)을 따라 [페이지/컴포넌트명] 을 만들어줘.
+> - 메인 컬러: 보라(#8A38F5) → 분홍(#D53A6B) 그라데이션
+> - 폰트: Pretendard Variable
+> - 카드 radius 16px, 버튼 radius 10px
+> - PC·모바일 반응형, 같은 색·폰트 사용
+> - 아이콘 Lucide, 한국어 존댓말
+> - 첨부한 CSS 변수와 컴포넌트 가이드 외 임의 색상 사용 금지"
+
+---
+
+## 18. 코드 적용 컨벤션 (강개발 룰)
+
+CEO가 박은 절대 룰. 강개발이 디자인 시스템을 코드에 옮길 때:
+
+1. **CSS 라이브러리·UI 프레임워크 금지** — Tailwind / Bootstrap / Material UI / styled-components / Chakra 등 도입 금지. **순수 CSS만**.
+2. **모든 디자인 값은 `:root`의 CSS 변수로** — §15의 변수 묶음을 *한 파일*에 두고, 모든 페이지에서 `var(--...)`로 참조. 사용자가 *그 한 파일만 수정*해도 전 페이지에 반영되어야 한다.
+3. **임의 HEX / 임의 px / 임의 폰트 금지** — 정말 새 값이 필요하면 §15에 *변수 먼저 추가*하고 사용.
+4. **아이콘 = Lucide만**, **폰트 = Pretendard + Agbalumo만**. 추가 라이브러리 도입은 *사용자 승인* 필요.
+5. **변수 네이밍 일관성** — 신규 토큰 추가 시 `--{분류}-{단계|역할}` 패턴 유지 (`--spacing-2xl`, `--font-4xl`, `--primary-50` 등).
+6. **개별 간격은 변수 늘리지 말고 기존 토큰으로** — 한 섹션만 다른 간격이 필요하면 그 섹션에 `--spacing-lg` 등 *기존 토큰*을 인라인으로. 변수는 *전역 재사용 값*에만.
+
+---
+
+## 19. 디자이너 에이전트가 이 문서를 사용하는 방법
 
 - **새 화면을 디자인할 때**: 위 색상·간격·컴포넌트 명세에서 *기존 토큰을 먼저* 사용. 새 값이 필요하면 *왜* 새로 정의해야 하는지 한 줄로 근거 제시.
 - **프로젝트별 오버라이드 확인**: `./.claude/knowledge/ui-designer/design-system.md`(프로젝트 로컬)가 있으면 그것이 우선. 없으면 이 글로벌 문서 사용.
-- **모바일이 아닌 프로젝트**: 모바일 컴포넌트(바텀 네비, 시트, 한강 온도 바, 매너 태그 등)는 *그대로 적용하지 말고* 데스크탑/태블릿용으로 변환해서 사용. 색·타이포·둥글기·그림자 토큰은 그대로.
+- **모바일이 아닌 프로젝트**: 사이드바·헤더 구조는 그대로, 모바일 한정 컴포넌트(하단 탭바, 바닥 시트)는 데스크탑 변형(좌측 사이드바, 중앙 모달)으로 치환.
 - **요청자가 "다른 디자인"이라고 명시하면**: 이 문서를 *참고용으로만* 두고 별도 안 제안.
