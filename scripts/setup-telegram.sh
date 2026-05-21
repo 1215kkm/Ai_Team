@@ -48,14 +48,23 @@ if [[ -z "$CHAT_ID" ]]; then
 fi
 [[ -z "$CHAT_ID" ]] && { echo "chat_id가 비었습니다." >&2; exit 1; }
 
+# 3) (선택) AI_TEAM_TOKEN — 다른 레포에서 강팀 학습 PR 만들 때 필요한 PAT
+echo
+echo "3) (선택) Ai_Team 학습 토큰"
+echo "   다른 프로젝트 회의에서 텔레그램 🧠 버튼 누르면 Ai_Team 레포에 자동 PR 만드는 데 필요한"
+echo "   fine-grained PAT 입니다 (Repo: 1215kkm/Ai_Team, Permissions: Issues read/write)."
+echo "   지금 안 만들었으면 Enter 로 스킵 가능 (나중에 'bash setup-telegram.sh' 다시 실행)."
+read -r -p "   AI_TEAM_TOKEN (없으면 Enter): " AI_TEAM_TOKEN
+
 # 저장
 mkdir -p "$CONFIG_DIR"
 umask 077
-cat > "$CONFIG" <<EOF
-# 강팀 텔레그램 봇 설정 — 절대 깃에 올리지 마세요.
-TELEGRAM_BOT_TOKEN="$TOKEN"
-TELEGRAM_CHAT_ID="$CHAT_ID"
-EOF
+{
+  echo "# 강팀 텔레그램 봇 설정 — 절대 깃에 올리지 마세요."
+  echo "TELEGRAM_BOT_TOKEN=\"$TOKEN\""
+  echo "TELEGRAM_CHAT_ID=\"$CHAT_ID\""
+  [[ -n "$AI_TEAM_TOKEN" ]] && echo "AI_TEAM_TOKEN=\"$AI_TEAM_TOKEN\""
+} > "$CONFIG"
 chmod 600 "$CONFIG"
 echo
 echo "저장됨: $CONFIG (권한 600)"

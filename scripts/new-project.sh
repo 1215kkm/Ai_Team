@@ -258,15 +258,44 @@ node_modules/
 # 강팀 로컬 자격증명·텔레그램 마지막 update_id 등은 ~/.claude/team-config/ 로 (이 레포 밖)
 EOF
 
-# 8) git init
+# 8) telegram-poll workflow 자동 복사 (글로벌 설치본에서)
+GLOBAL_WF="$GLOBAL/workflows/telegram-poll.yml"
+if [[ -f "$GLOBAL_WF" ]]; then
+  mkdir -p .github/workflows
+  cp "$GLOBAL_WF" .github/workflows/telegram-poll.yml
+  echo "  ✓ telegram-poll.yml 복사됨"
+fi
+
+# 9) git init
 if [[ $NO_GIT -eq 0 ]] && command -v git >/dev/null 2>&1; then
   git init -q
   git add .
   git -c commit.gpgsign=false commit -q -m "chore: scaffold with 강팀 (Crowny Class 디자인 시스템)"
 fi
 
+# 10) GitHub 레포 + 시크릿 자동 등록 (gh CLI + ~/.claude/team-config/telegram.env 있을 때만)
+SECRETS_SET=0
+if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1 \
+   && [[ -f "$HOME/.claude/team-config/telegram.env" ]]; then
+  echo
+  read -r -p "GitHub 레포를 자동 생성하고 시크릿을 등록할까요? (y/N) " ans
+  if [[ "$ans" == "y" || "$ans" == "Y" ]]; then
+    read -r -p "  레포 공개 범위 [private/public] (기본 private): " VIS
+    VIS="${VIS:-private}"
+    gh repo create "$NAME" "--$VIS" --source=. --push 2>/dev/null || \
+      echo "  (이미 있거나 실패 — 수동으로 'gh repo create' 해주세요)"
+    if [[ -x "$GLOBAL/bin/setup-repo-secrets.sh" ]]; then
+      bash "$GLOBAL/bin/setup-repo-secrets.sh" && SECRETS_SET=1
+    fi
+  fi
+fi
+
 echo
 echo "✅ 완료. 다음 단계:"
 echo "  cd $DIR"
+if [[ $SECRETS_SET -eq 0 ]]; then
+  echo "  # (선택) GitHub 시크릿 한 번에 등록:"
+  echo "  bash ~/.claude/bin/setup-repo-secrets.sh"
+fi
 echo "  # Claude Code 열고:"
 echo "  /회의시작"
