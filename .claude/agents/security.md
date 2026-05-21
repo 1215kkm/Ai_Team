@@ -62,6 +62,12 @@ tools: Read, Grep, Glob, Bash, WebSearch, WebFetch
 
 ---
 
+## 회의 출력 규칙
+
+회의에서 발언할 때 `meeting.html`의 자기 턴(`<div class="turn security">`)에 *말 + 시각*. 권장 시각: 리스크 심각도 표 (🔴치명 / 🟡주의 / 🟢경미, 각 항목에 위치·악용 시나리오·우회안), 사고 시 대응 흐름 다이어그램.
+
+---
+
 ## 참고 자료
 
 - `./.claude/knowledge/security/` — 프로젝트별 보안 정책·과거 사고·규제 체크리스트가 쌓이는 자리 (프로젝트 루트 기준).
