@@ -82,9 +82,18 @@ pwsh scripts/start-meeting.ps1 "회의 주제"        # windows
 1. **강디2가 `mockup.html`에 빠른 목업** — 그 회의에서 다룬 화면들을 *한 페이지에 grid로* (`<!-- SCREENS_START -->` ~ `<!-- SCREENS_END -->`). Crowny Class 디자인 시스템 토큰만 사용: 보라→분홍 그라데이션 CTA, Pretendard 폰트, radius 10/16, shadow-md 카드. 모바일 9:16 프레임이 기본.
 2. **`meeting.html` 하단 iframe이 자동으로 mockup을 띄움** — 모두가 같은 화면을 본다.
 3. **모든 참석자가 한 줄씩** — `<!-- COMMENTS_START -->` ~ `<!-- COMMENTS_END -->` 사이에 각자 한 줄 코멘트.
-4. 한 줄 코멘트까지 끝난 뒤에만 회의 종료.
+4. **강팀장이 `<!-- SUMMARY_START -->` ~ `<!-- SUMMARY_END -->` 블록을 채운다** — *결정 / 미결정 / 다음 액션* 3섹션. 이 내용이 텔레그램으로 그대로 발송됨.
+5. **텔레그램으로 자동 전송** — 강팀장이 회의 마감을 선언하면서 다음 명령 실행:
+   ```bash
+   bash ~/.claude/bin/send-meeting.sh       # 다른 레포: 전역 설치본
+   bash scripts/send-meeting.sh             # Ai_Team 레포 안에서
+   ```
+   요약 텍스트 + meeting.html + mockup.html + PNG 스크린샷이 본인 텔레그램 DM 으로 들어감.
+   처음이면 `bash ~/.claude/bin/setup-telegram.sh` 한 번 실행 (`@BotFather` 토큰 + 본인 chat_id).
+   설정 없으면 스킵하고 회의만 종료.
+6. 한 줄 코멘트까지 끝난 뒤에만 회의 종료.
 
-> 디자인/화면 안건이 *없었던* 회의는 mockup 단계 생략 가능. 그 경우에도 마지막에 강팀장이 *결정·미결정·다음 액션* 정리 턴으로 닫는다.
+> 디자인/화면 안건이 *없었던* 회의도 4·5단계는 *반드시 수행*한다 (요약 + 텔레그램 전송). mockup 단계만 생략 가능.
 
 ---
 

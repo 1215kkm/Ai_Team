@@ -72,9 +72,20 @@ bash ~/.claude/bin/start-meeting.sh "이벤트 페이지 디자인"
 2. 각 멤버가 호출되면 자기 색·아이콘으로 **말 + 시각**(SVG·표·Mermaid·코드) 한 턴씩 append
 3. *디자인/화면 안건이 있었으면* 강디2가 마지막에 **`mockup.html`에 모든 화면을 한 페이지 grid로** 빠르게 채움
 4. `meeting.html` 하단 iframe이 자동으로 mockup을 띄움 — 전원이 같은 화면을 봄
-5. **모든 참석자가 한 줄씩** 코멘트 → 회의 종료
+5. 강팀장이 `<!-- SUMMARY_START -->` 블록에 **결정 / 미결정 / 다음 액션** 채움
+6. **모든 참석자가 한 줄씩** 코멘트
+7. **텔레그램 자동 전송** — `bash ~/.claude/bin/send-meeting.sh` → 요약 + meeting.html + mockup.html + PNG 스크린샷이 본인 DM 으로
 
-> 디자인/화면 안건이 없었던 회의는 4·5 단계 생략 — 강팀장이 *결정·미결정·다음 액션* 정리 턴으로 닫는다.
+### 텔레그램 연동 (최초 1회만)
+
+```bash
+bash ~/.claude/bin/setup-telegram.sh
+# 1) @BotFather에서 봇 만든 토큰 입력
+# 2) 봇과 한 번 대화 후 chat_id 자동 감지
+# 3) ~/.claude/team-config/telegram.env 에 저장 (chmod 600, 깃에 안 들어감)
+```
+
+이후 어디서든 회의 끝나면 자동으로 본인 텔레그램으로 회의록이 들어옵니다. PNG 스크린샷은 헤드리스 Chrome/Chromium 이 깔려 있어야 렌더됨 (없어도 텍스트+HTML 은 그대로 전송).
 
 ---
 
