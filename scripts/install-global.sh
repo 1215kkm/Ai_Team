@@ -14,11 +14,13 @@ FORCE=0
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SRC_AGENTS="$REPO_ROOT/.claude/agents"
+SRC_CMDS="$REPO_ROOT/.claude/commands"
 SRC_KNOW="$REPO_ROOT/.claude/knowledge"
 SRC_TPL="$REPO_ROOT/templates"
 SRC_BIN="$REPO_ROOT/scripts"
 DST_ROOT="$HOME/.claude"
 DST_AGENTS="$DST_ROOT/agents"
+DST_CMDS="$DST_ROOT/commands"
 DST_KNOW="$DST_ROOT/knowledge"
 DST_TPL="$DST_ROOT/templates"
 DST_BIN="$DST_ROOT/bin"
@@ -36,7 +38,7 @@ echo "  source : $REPO_ROOT"
 echo "  target : $DST_ROOT"
 echo
 
-mkdir -p "$DST_AGENTS" "$DST_KNOW" "$DST_TPL" "$DST_BIN" "$DST_WF"
+mkdir -p "$DST_AGENTS" "$DST_CMDS" "$DST_KNOW" "$DST_TPL" "$DST_BIN" "$DST_WF"
 
 copy_tree() {
   local from="$1" to="$2" label="$3"
@@ -57,21 +59,26 @@ copy_tree() {
   done < <(find "$from" -type f -print0)
 }
 
-echo "[1/4] agents 복사"
+echo "[1/6] agents 복사"
 copy_tree "$SRC_AGENTS" "$DST_AGENTS" "agents"
 echo
-echo "[2/4] knowledge 복사 (전역 브레인 포함)"
+echo "[2/6] commands 복사 (슬래시 커맨드: /회의시작, /진행)"
+if [[ -d "$SRC_CMDS" ]]; then
+  copy_tree "$SRC_CMDS" "$DST_CMDS" "commands"
+fi
+echo
+echo "[3/6] knowledge 복사 (전역 브레인 포함)"
 copy_tree "$SRC_KNOW" "$DST_KNOW" "knowledge"
 echo
-echo "[3/4] templates 복사 (회의록·목업·회고)"
+echo "[4/6] templates 복사 (회의록·목업·회고)"
 copy_tree "$SRC_TPL" "$DST_TPL" "templates"
 echo
-echo "[4/5] scripts 복사 (start-meeting, send-meeting, new-project 등)"
+echo "[5/6] scripts 복사 (start-meeting, send-meeting, new-project 등)"
 copy_tree "$SRC_BIN" "$DST_BIN" "scripts"
 chmod +x "$DST_BIN"/*.sh 2>/dev/null || true
 
 echo
-echo "[5/5] GitHub Actions workflows 복사 (telegram-poll 등)"
+echo "[6/6] GitHub Actions workflows 복사 (telegram-poll 등)"
 if [[ -d "$SRC_WF" ]]; then
   copy_tree "$SRC_WF" "$DST_WF" "workflows"
 fi
