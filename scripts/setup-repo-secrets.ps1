@@ -1,4 +1,4 @@
-#requires -Version 5.1
+﻿#requires -Version 5.1
 <#
 .SYNOPSIS
   강팀 시크릿을 현재(또는 지정한) GitHub 레포에 한 번에 등록 (Windows / PowerShell)

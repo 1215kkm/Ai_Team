@@ -1,4 +1,4 @@
-# install-global.ps1 — Ai_Team을 전역 (~/.claude/)에 설치
+﻿# install-global.ps1 — Ai_Team을 전역 (~/.claude/)에 설치
 # Windows PowerShell 5+ / PowerShell 7+
 #
 # 사용:

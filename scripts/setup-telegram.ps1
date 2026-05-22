@@ -1,4 +1,4 @@
-#requires -Version 5.1
+﻿#requires -Version 5.1
 <#
 .SYNOPSIS
   강팀 텔레그램 봇 연결 초기 세팅 (Windows / PowerShell)

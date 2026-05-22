@@ -1,4 +1,4 @@
-# start-meeting.ps1 — 강팀 새 회의 폴더 생성 (Windows)
+﻿# start-meeting.ps1 — 강팀 새 회의 폴더 생성 (Windows)
 #
 # 사용: pwsh ./scripts/start-meeting.ps1 "회의 주제"
 
