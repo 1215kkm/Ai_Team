@@ -1,4 +1,4 @@
-#requires -Version 5.1
+﻿#requires -Version 5.1
 <#
 .SYNOPSIS
   강팀 회의록을 텔레그램으로 전송 (Windows / PowerShell)
