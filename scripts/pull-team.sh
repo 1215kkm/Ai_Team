@@ -44,7 +44,8 @@ if [[ $LOCAL -eq 1 ]]; then
   mkdir -p .claude templates scripts
   for sub in agents commands knowledge hooks; do
     if [[ -d "$TMP/ai_team/.claude/$sub" ]]; then
-      cp -r "$TMP/ai_team/.claude/$sub" ".claude/$sub"
+      mkdir -p ".claude/$sub"
+      cp -r "$TMP/ai_team/.claude/$sub/." ".claude/$sub/"
     fi
   done
   # settings.json 은 *덮어쓰지 않음* — 사용자 커스터마이즈 보호. 없을 때만 복사.
