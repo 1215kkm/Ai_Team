@@ -42,13 +42,25 @@ if [[ $LOCAL -eq 1 ]]; then
   echo "[2/2] 현재 레포에 .claude/ 박는 중 — $CWD"
   cd "$CWD"
   mkdir -p .claude templates scripts
-  for sub in agents commands knowledge; do
-    cp -r "$TMP/ai_team/.claude/$sub" ".claude/$sub" 2>/dev/null || true
+  for sub in agents commands knowledge hooks; do
+    if [[ -d "$TMP/ai_team/.claude/$sub" ]]; then
+      cp -r "$TMP/ai_team/.claude/$sub" ".claude/$sub"
+    fi
   done
+  # settings.json 은 *덮어쓰지 않음* — 사용자 커스터마이즈 보호. 없을 때만 복사.
+  if [[ ! -f .claude/settings.json && -f "$TMP/ai_team/.claude/settings.json" ]]; then
+    cp "$TMP/ai_team/.claude/settings.json" .claude/settings.json
+  fi
   cp -r "$TMP/ai_team/templates/." templates/ 2>/dev/null || true
   cp "$TMP/ai_team/scripts/"*.sh scripts/ 2>/dev/null || true
   cp "$TMP/ai_team/scripts/"*.ps1 scripts/ 2>/dev/null || true
-  chmod +x scripts/*.sh 2>/dev/null || true
+  chmod +x scripts/*.sh .claude/hooks/*.sh 2>/dev/null || true
+
+  # 강팀 본체 버전 SHA 기록 — SessionStart 훅이 이걸로 업데이트 알림
+  KANG_SHA="$(cd "$TMP/ai_team" && git rev-parse HEAD 2>/dev/null || echo "")"
+  if [[ -n "$KANG_SHA" ]]; then
+    echo "$KANG_SHA" > .claude/.kang-version
+  fi
 
   if [[ ! -f CLAUDE.md ]]; then
     cat > CLAUDE.md <<'EOF'

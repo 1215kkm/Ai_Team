@@ -16,12 +16,14 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SRC_AGENTS="$REPO_ROOT/.claude/agents"
 SRC_CMDS="$REPO_ROOT/.claude/commands"
 SRC_KNOW="$REPO_ROOT/.claude/knowledge"
+SRC_HOOKS="$REPO_ROOT/.claude/hooks"
 SRC_TPL="$REPO_ROOT/templates"
 SRC_BIN="$REPO_ROOT/scripts"
 DST_ROOT="$HOME/.claude"
 DST_AGENTS="$DST_ROOT/agents"
 DST_CMDS="$DST_ROOT/commands"
 DST_KNOW="$DST_ROOT/knowledge"
+DST_HOOKS="$DST_ROOT/hooks"
 DST_TPL="$DST_ROOT/templates"
 DST_BIN="$DST_ROOT/bin"
 DST_WF="$DST_ROOT/workflows"
@@ -38,7 +40,7 @@ echo "  source : $REPO_ROOT"
 echo "  target : $DST_ROOT"
 echo
 
-mkdir -p "$DST_AGENTS" "$DST_CMDS" "$DST_KNOW" "$DST_TPL" "$DST_BIN" "$DST_WF"
+mkdir -p "$DST_AGENTS" "$DST_CMDS" "$DST_KNOW" "$DST_HOOKS" "$DST_TPL" "$DST_BIN" "$DST_WF"
 
 copy_tree() {
   local from="$1" to="$2" label="$3"
@@ -73,9 +75,16 @@ echo
 echo "[4/6] templates 복사 (회의록·목업·회고)"
 copy_tree "$SRC_TPL" "$DST_TPL" "templates"
 echo
-echo "[5/6] scripts 복사 (start-meeting, send-meeting, new-project 등)"
+echo "[5/6] scripts 복사 (start-meeting, send-meeting, pull-team, promote-to-team, new-project 등)"
 copy_tree "$SRC_BIN" "$DST_BIN" "scripts"
 chmod +x "$DST_BIN"/*.sh 2>/dev/null || true
+
+if [[ -d "$SRC_HOOKS" ]]; then
+  echo
+  echo "[5b] hooks 복사 (session-start 등)"
+  copy_tree "$SRC_HOOKS" "$DST_HOOKS" "hooks"
+  chmod +x "$DST_HOOKS"/*.sh 2>/dev/null || true
+fi
 
 echo
 echo "[6/7] GitHub Actions workflows 복사 (telegram-poll 등)"

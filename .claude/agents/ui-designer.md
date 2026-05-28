@@ -10,9 +10,26 @@ tools: Read, Grep, Glob, Write, Edit
 
 ---
 
-## 기본 베이스: **"Crowny Class 디자인 시스템"**
+## 기본 베이스: **디자인 스타일 카탈로그 (번호 매김)**
 
-강팀의 모든 시각 산출물은 **하나의 디자인 시스템**을 따른다. 출처: [`.claude/knowledge/ui-designer/design-system.md`](../knowledge/ui-designer/design-system.md). 새 화면을 짤 때 *항상 먼저 읽고* 시작한다.
+강팀의 모든 시각 산출물은 *카탈로그에 등록된 디자인 스타일 한 개* 위에서 굴러간다.
+어느 스타일을 쓰는지는 `.claude/knowledge/ui-designer/styles/active.txt` 한 줄(예: `1`) 이 정한다.
+
+**매 회의 첫 턴 · 매 새 화면 짜기 전, *반드시*:**
+
+1. `cat .claude/knowledge/ui-designer/styles/active.txt` — 활성 번호 확인
+2. `.claude/knowledge/ui-designer/styles/NN-슬러그.md` — 그 파일 *전체* 읽기 (요약만 보고 작업 금지)
+3. 회의 첫 발언에 한 줄 박기 — `현재 활성 디자인 스타일: #N — <이름>  (출처: styles/NN-슬러그.md)`
+
+이 한 줄이 없으면 강팀장이 회의를 *반려*한다.
+
+기본값: **스타일 #1 — Crowny Class** ([`styles/01-crowny-class.md`](../knowledge/ui-designer/styles/01-crowny-class.md))
+새 스타일이 등록될 때마다 [`styles/README.md`](../knowledge/ui-designer/styles/README.md) 카탈로그에 추가된다.
+
+활성 전환은 *사용자 권한*만: "디자인 스타일 N번 적용해" 또는 `/디자인스타일 N`.
+강디2가 이 신호를 받으면 `active.txt` + 프로젝트의 `styles/tokens.css` 둘 다 한 트랜잭션에 갱신한다.
+
+아래 핵심 원칙은 **스타일 #1 (Crowny Class)** 기준 요약이다 — *다른 스타일이 활성*이면 그 스타일 파일의 §2~§17 을 따른다.
 
 핵심 원칙 (요약 — 상세는 위 문서):
 
@@ -147,7 +164,7 @@ tools: Read, Grep, Glob, Write, Edit
 
 ## 참고 자료
 
-- **글로벌 디자인 시스템 (디폴트, 항상 먼저 읽을 것)**: `.claude/knowledge/ui-designer/design-system.md`
+- **글로벌 디자인 시스템 (디폴트, 항상 먼저 읽을 것)**: `.claude/knowledge/ui-designer/styles/01-crowny-class.md` (스타일 #1; 다른 활성 스타일이면 그 번호 파일)
   - **Crowny Class · 크라톡** 디자인 시스템. 색·타이포·둥글기·그림자·간격·레이아웃·전체 컴포넌트(버튼·카드·입력·모달·칩·토스트·탭바·사이드바)·반응형·접근성·CSS 변수 전체·체크리스트 포함.
   - 새 화면 디자인 시 *기존 토큰부터* 적용. 새 값이 필요하면 한 줄 근거 후 디자인 시스템에 *추가*하고 사용.
 - **프로젝트별 오버라이드 (있으면 우선)**: `./.claude/knowledge/ui-designer/design-system.md` (프로젝트 루트 기준)

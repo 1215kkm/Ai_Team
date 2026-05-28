@@ -11,6 +11,31 @@ set -euo pipefail
 CONFIG_DIR="$HOME/.claude/team-config"
 CONFIG="$CONFIG_DIR/telegram.env"
 
+# 비대화형 자동 셋업 — 환경변수에 토큰·chat_id 가 이미 있으면 그대로 저장하고 종료.
+# 클로드 웹 컨테이너·Codespaces·CI 환경에서 매번 새로 묻지 않도록.
+if [[ -n "${TELEGRAM_BOT_TOKEN:-}" && -n "${TELEGRAM_CHAT_ID:-}" ]]; then
+  mkdir -p "$CONFIG_DIR"
+  umask 077
+  {
+    echo "# 강팀 텔레그램 설정 (환경변수에서 자동 주입됨)"
+    echo "TELEGRAM_BOT_TOKEN=\"$TELEGRAM_BOT_TOKEN\""
+    echo "TELEGRAM_CHAT_ID=\"$TELEGRAM_CHAT_ID\""
+    [[ -n "${AI_TEAM_TOKEN:-}" ]] && echo "AI_TEAM_TOKEN=\"$AI_TEAM_TOKEN\""
+  } > "$CONFIG"
+  chmod 600 "$CONFIG"
+  echo "✓ 환경변수에서 텔레그램 설정 자동 저장 — $CONFIG"
+  if curl -sS --max-time 5 -X POST \
+       "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+       --data-urlencode "chat_id=$TELEGRAM_CHAT_ID" \
+       --data-urlencode "text=✅ 강팀 → 텔레그램 자동 연결 완료 (환경변수)" \
+       | grep -q '"ok":true'; then
+    echo "✓ 테스트 메시지 발송 성공"
+  else
+    echo "⚠ 테스트 메시지 실패 — 토큰/chat_id 확인 필요 (네트워크 일시 장애일 수 있음)"
+  fi
+  exit 0
+fi
+
 cat <<'EOF'
 강팀 → 텔레그램 연결 세팅
 ─────────────────────────
@@ -19,6 +44,9 @@ cat <<'EOF'
         → 봇 이름·@username 정해주면 토큰 줍니다 (123456:ABC-DEF...).
 준비 2: 방금 만든 봇과 텔레그램에서 대화 시작 — 아무 메시지나 한 번 보내주세요
         (안 보내면 chat_id 자동 감지 안 됨).
+
+대화형 입력을 피하려면: 환경변수 TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID 를 세팅한 뒤
+다시 실행하면 *묻지 않고* 자동 저장됩니다.
 
 EOF
 
