@@ -120,18 +120,30 @@ bash ~/.claude/bin/setup-telegram.sh
 
 ---
 
-## 디자인 베이스: "Crowny Class 디자인 시스템"
+## 디자인 베이스 — 번호 매겨진 스타일 카탈로그
 
-강디1·강디2가 모든 산출물에 박는 시스템. 전체: [`.claude/knowledge/ui-designer/design-system.md`](./.claude/knowledge/ui-designer/design-system.md).
+강팀의 모든 시각 산출물은 *카탈로그에 등록된 디자인 스타일 한 개* 위에서 굴러간다.
+어느 스타일을 쓰는지는 `.claude/knowledge/ui-designer/styles/active.txt` 한 줄 (예: `1`) 이 정한다.
 
-- 메인 컬러: 보라 `#8A38F5` → 분홍 `#D53A6B` 그라데이션 (135deg)
-- 폰트: Pretendard Variable (로고만 Agbalumo)
-- 둥글기: 버튼 10px · 카드/모달 16px · 큰 카드 20px · 칩 full
-- 그림자: 카드 shadow-md · 모달 shadow-xl · CTA 호버 shadow-primary
-- 아이콘: Lucide · 간격: 8px 그리드
-- PC·모바일 동일 토큰 (모바일은 사이드바→탭바, 모달→바닥 시트로만 변환)
-- 임의 HEX·새 토큰 금지 — 정말 필요하면 디자인 시스템에 *먼저 추가* 후 사용
-- 아뱅이 들어와도 *시스템 토큰은 깨지 않는다* — 차별화는 토큰 *깊이 활용*(그라데이션 각도/그림자 레이어/마이크로 인터랙션)으로
+- **기본 활성 스타일**: **#1 — Crowny Class** (보라→분홍 그라데이션, Pretendard, 16px 본문, radius 10/16). 전체 명세: [`.claude/knowledge/ui-designer/styles/01-crowny-class.md`](./.claude/knowledge/ui-designer/styles/01-crowny-class.md)
+- **카탈로그**: [`.claude/knowledge/ui-designer/styles/README.md`](./.claude/knowledge/ui-designer/styles/README.md) — 등록된 스타일 표 + 새 스타일 등록 방법
+- **전환**: "디자인 스타일 N번 적용해" (자연어) 또는 `/디자인스타일 N` — 강디2가 `active.txt` + 프로젝트의 `styles/tokens.css` 를 한 트랜잭션에 갱신
+- **임의 HEX·새 토큰 즉석 사용 금지** — 활성 스타일 파일에 *먼저 추가* 후 사용
+- **아뱅이 들어와도 스타일 토큰은 깨지 않는다** — 차별화는 토큰을 *깊이 활용* (그라데이션 각도·그림자 레이어·마이크로 인터랙션)
+- 앞으로 #2, #3, ... 신규 스타일을 추가하며 *프로젝트별로* 활성 스타일 번호만 골라 쓰는 방향
+
+## 강팀 발전 — 다른 레포에서 본체로 학습 PR
+
+다른 레포에서 회의·작업하다 *재사용 가능한 패턴*을 발견하면:
+
+```
+강팀 업데이트
+```
+또는 `/강팀업데이트` → `scripts/promote-to-team.sh` 가 자동으로:
+1. 가장 최근 회의 요약 추출
+2. 이 `Ai_Team` 레포에 `learn/<프로젝트>-<날짜>-<슬러그>` 브랜치로 PR 자동 생성
+3. PR URL CEO 에게 보고 → CEO 가 PR 페이지에서 "재사용 가능 패턴 3개 체크박스" 채운 뒤 머지
+4. 머지 후 다른 PC·세션에서 `pull-team.sh` 다시 돌리면 *학습된 강팀*이 따라옴 (SessionStart 훅이 SHA 비교해 알림)
 
 ---
 

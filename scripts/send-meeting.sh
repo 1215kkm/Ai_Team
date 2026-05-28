@@ -64,17 +64,34 @@ MOCKUP_HTML="$MEETING_DIR/mockup.html"
 TITLE=$(grep -m1 -oE '<title>[^<]*</title>' "$MEETING_HTML" | sed 's/<[^>]*>//g' || echo "강팀 회의")
 DATE=$(grep -m1 -oE '날짜: [0-9-]+' "$MEETING_HTML" | sed 's/날짜: //' || date +%F)
 
+# 프로젝트명 추출 — 한 텔레그램 채팅으로 여러 프로젝트 회의록이 들어와도 한눈에 구분되도록
+PROJECT_NAME=""
+if git rev-parse --show-toplevel >/dev/null 2>&1; then
+  PROJECT_NAME="$(basename "$(git rev-parse --show-toplevel)")"
+  REMOTE_URL="$(git config --get remote.origin.url 2>/dev/null || true)"
+  if [[ -n "$REMOTE_URL" ]]; then
+    REPO_SLUG="$(echo "$REMOTE_URL" | sed -E 's#.*[:/]([^/]+/[^/.]+)(\.git)?$#\1#')"
+    [[ -n "$REPO_SLUG" && "$REPO_SLUG" != "$REMOTE_URL" ]] && PROJECT_NAME="$REPO_SLUG"
+  fi
+fi
+[[ -z "$PROJECT_NAME" ]] && PROJECT_NAME="$(basename "$(pwd)")"
+
+log "프로젝트: $PROJECT_NAME"
 log "회의: $TITLE ($DATE)"
 log "폴더: $MEETING_DIR"
 
 # ---------- 2. 텔레그램 설정 로드 ----------
 CONFIG="$HOME/.claude/team-config/telegram.env"
 if [[ $DRY_RUN -eq 0 ]]; then
-  [[ -f "$CONFIG" ]] || err "$CONFIG 가 없습니다. 먼저 'bash setup-telegram.sh' 실행해주세요."
-  # shellcheck disable=SC1090
-  source "$CONFIG"
-  [[ -n "${TELEGRAM_BOT_TOKEN:-}" ]] || err "TELEGRAM_BOT_TOKEN 누락"
-  [[ -n "${TELEGRAM_CHAT_ID:-}"   ]] || err "TELEGRAM_CHAT_ID 누락"
+  # 우선순위: 1) 환경변수, 2) ~/.claude/team-config/telegram.env
+  if [[ -z "${TELEGRAM_BOT_TOKEN:-}" || -z "${TELEGRAM_CHAT_ID:-}" ]]; then
+    if [[ -f "$CONFIG" ]]; then
+      # shellcheck disable=SC1090
+      source "$CONFIG"
+    fi
+  fi
+  [[ -n "${TELEGRAM_BOT_TOKEN:-}" ]] || err "TELEGRAM_BOT_TOKEN 없음. 'bash setup-telegram.sh' 실행하거나 환경변수로 주입."
+  [[ -n "${TELEGRAM_CHAT_ID:-}"   ]] || err "TELEGRAM_CHAT_ID 없음. 'bash setup-telegram.sh' 실행하거나 환경변수로 주입."
 fi
 
 API="https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN:-DRY}"
@@ -100,8 +117,9 @@ if [[ -z "$SUMMARY" ]]; then
 fi
 
 # 텔레그램 메시지 본문 (HTML 모드)
-HEADER="<b>🎯 강팀 회의록</b>
-<i>${TITLE}</i>
+# 헤더는 한 줄로 "프로젝트 · 주제 · 날짜" — 여러 프로젝트 회의록이 한 채팅에 와도 즉시 구분
+HEADER="<b>📦 ${PROJECT_NAME}</b>
+🎯 <b>강팀 회의록</b> · <i>${TITLE}</i>
 <code>${DATE}</code>
 "
 MESSAGE="${HEADER}
