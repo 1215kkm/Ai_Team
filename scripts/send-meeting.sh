@@ -196,6 +196,57 @@ tg_call() {
   fi
 }
 
+# Windows Git Bash curl은 비ASCII argv를 CP949로 망가뜨려 텔레그램이 UTF-8 거부함.
+# JSON 본문을 파일로 직렬화해 --data-binary 로 보내면 우회 가능.
+# 환경에 node가 있으면 JSON 경로, 아니면 기존 argv 경로 (mac/linux 회귀 방지).
+HAVE_NODE=0
+command -v node >/dev/null 2>&1 && HAVE_NODE=1
+
+tg_send_message() {
+  if [[ $HAVE_NODE -eq 1 ]]; then
+    local json_tmp
+    json_tmp=$(mktemp)
+    TG_CHAT="$TELEGRAM_CHAT_ID" TG_TEXT="$MESSAGE" TG_KB="$KEYBOARD" \
+      node -e '
+        const fs=require("fs");
+        const payload={
+          chat_id: process.env.TG_CHAT,
+          text: process.env.TG_TEXT,
+          parse_mode: "HTML",
+          disable_web_page_preview: true,
+          reply_markup: JSON.parse(process.env.TG_KB)
+        };
+        fs.writeFileSync(1, JSON.stringify(payload));
+      ' > "$json_tmp"
+    local resp
+    resp=$(curl -sS --max-time 30 -X POST "$API/sendMessage" \
+      -H "Content-Type: application/json; charset=utf-8" \
+      --data-binary "@$json_tmp")
+    rm -f "$json_tmp"
+    if ! echo "$resp" | grep -q '"ok":true'; then
+      echo "텔레그램 sendMessage 실패:" >&2
+      echo "$resp" >&2
+      return 1
+    fi
+  else
+    tg_call sendMessage \
+      --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+      --data-urlencode "text=${MESSAGE}" \
+      --data-urlencode "parse_mode=HTML" \
+      --data-urlencode "disable_web_page_preview=true" \
+      --data-urlencode "reply_markup=${KEYBOARD}"
+  fi
+}
+
+# 한국어/이모지 캡션을 UTF-8 임시 파일에 써서 -F "caption=<file" 로 넘기는 헬퍼.
+# 사용: cap_arg=$(tg_caption_file "📋 회의 흐름"); tg_call sendPhoto ... -F "caption=<${cap_arg}"
+tg_caption_file() {
+  local f
+  f=$(mktemp)
+  printf '%s' "$1" > "$f"
+  echo "$f"
+}
+
 # 회의 식별자 = 폴더명 (callback_data에 박아 polling에서 매칭)
 MEETING_ID=$(basename "$MEETING_DIR")
 # 4096byte 컷이 콜백 데이터에 영향 없도록 ID는 짧게
@@ -221,12 +272,7 @@ JSON
 )
 
 log "→ 요약 텍스트 + 버튼 전송"
-tg_call sendMessage \
-  --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
-  --data-urlencode "text=${MESSAGE}" \
-  --data-urlencode "parse_mode=HTML" \
-  --data-urlencode "disable_web_page_preview=true" \
-  --data-urlencode "reply_markup=${KEYBOARD}"
+tg_send_message
 
 if [[ $NO_HTML -eq 0 ]]; then
   log "→ meeting.html 전송"
@@ -253,18 +299,22 @@ fi
 
 if [[ -n "$SCREEN_MEETING" ]]; then
   log "→ meeting PNG 전송"
+  cap_meeting=$(tg_caption_file "📋 회의 흐름")
   tg_call sendPhoto \
     -F "chat_id=${TELEGRAM_CHAT_ID}" \
     -F "photo=@${SCREEN_MEETING}" \
-    -F "caption=📋 회의 흐름"
+    -F "caption=<${cap_meeting}"
+  rm -f "$cap_meeting"
 fi
 
 if [[ -n "$SCREEN_MOCKUP" ]]; then
   log "→ mockup PNG 전송"
+  cap_mockup=$(tg_caption_file "🎨 화면 목업")
   tg_call sendPhoto \
     -F "chat_id=${TELEGRAM_CHAT_ID}" \
     -F "photo=@${SCREEN_MOCKUP}" \
-    -F "caption=🎨 화면 목업"
+    -F "caption=<${cap_mockup}"
+  rm -f "$cap_mockup"
 fi
 
 log "✓ 전송 완료 — 텔레그램에서 확인하세요."
