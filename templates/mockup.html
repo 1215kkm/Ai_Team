@@ -20,7 +20,7 @@
   .screen .desc { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
   /* 9:16 phone frame — 화면 비율을 모바일 기본으로 */
   .frame { aspect-ratio: 9 / 16; background: white; border: 1px solid var(--line); border-radius: 6px; padding: 16px; overflow: hidden; font-size: 14px; }
-  /* 목업 안에서 자주 쓸 패턴 — 강디2가 인라인으로 더 정의 가능 */
+  /* 목업 안에서 자주 쓸 패턴 — 강디가 인라인으로 더 정의 가능 */
   .frame .topbar { display: flex; justify-content: space-between; align-items: center; padding: 4px 0 12px; border-bottom: 1px solid var(--line); font-size: 12px; color: var(--muted); }
   .frame .title { font-size: 18px; font-weight: 700; margin: 16px 0 8px; }
   .frame .body { font-size: 13px; line-height: 1.55; }
@@ -32,11 +32,11 @@
 <body>
 <header>
   <h1>목업 — {{TITLE}}</h1>
-  <div class="meta">강디2 빠른 스케치 · 엄청 심플 베이스 · 클릭 동작 없음 (보기 전용)</div>
+  <div class="meta">강디 빠른 스케치 · 엄청 심플 베이스 · 클릭 동작 없음 (보기 전용)</div>
 </header>
 
 <div class="screens">
-  <!-- 강디2가 안건별 화면을 여기 채움. 화면당 article.screen 한 개.
+  <!-- 강디가 안건별 화면을 여기 채움. 화면당 article.screen 한 개.
        빠르게 — 색 ≤ 3, 그림자 X, 장식 0. 위계는 크기·여백·굵기로만.
 
   예시:

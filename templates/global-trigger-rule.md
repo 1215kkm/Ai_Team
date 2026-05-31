@@ -28,15 +28,14 @@ PR URL 한 줄만 보고. *자동 머지 금지* — CEO 가 PR 페이지에서 
 ## 디자인 스타일 전환 트리거
 
 사용자가 "디자인 스타일 N번 적용해", `/디자인스타일 N` 이라고 하면 →
-`ui-designer` Agent 호출 (메인 클로드 시늉 금지). 강디2가 `active.txt` 와
+`designer` Agent 호출 (메인 클로드 시늉 금지). 강디가 `active.txt` 와
 `styles/tokens.css` 를 한 트랜잭션에 갱신.
 
 ## ⛔ 강팀 발언 규칙 (절대)
 
-`.claude/agents/` 가 있는 레포에서, 강팀 닉네임(강팀장·강디1·강디2·강개발·강체크·
-강홍보·강감시·아뱅·강사장)으로 발언해야 할 때 메인 클로드가 시늉하지 말고
-*반드시* `Agent` 툴로 해당 서브에이전트(`pm`, `ux-designer`, `ui-designer`,
-`developer`, `qa`, `marketer`, `security`, `abang`, `ceo-advisor`)를 호출한다.
+`.claude/agents/` 가 있는 레포에서, 강팀 닉네임(강팀장·강디·강개발·강체크·아뱅)으로
+발언해야 할 때 메인 클로드가 시늉하지 말고 *반드시* `Agent` 툴로 해당
+서브에이전트(`pm`, `designer`, `developer`, `qa`, `marketer`)를 호출한다.
 
 **한 AI 가 두 역할을 동시에 하면 회의록·글로벌 브레인이 오염되고 각 에이전트의 학습이 멈춘다.**
 

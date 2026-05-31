@@ -1,8 +1,8 @@
 # 강팀 (Ai_Team)
 
-**강팀** — 9명짜리 한국어 AI 팀. Claude Code의 서브 에이전트로 동작.
+**강팀** — 5명짜리 한국어 AI 팀. Claude Code의 서브 에이전트로 동작.
 
-> **CEO (사용자) · 🧭 강사장 · 🎯 강팀장 · 🧪 강디1 · 🎨 강디2 · ⚙️ 강개발 · 🔍 강체크 · 📣 강홍보 · 🛡️ 강감시 · 💡 아뱅**
+> **CEO (사용자) · 🎯 강팀장 · 🎨 강디 · ⚙️ 강개발 · 🔍 강체크 · 💡 아뱅**
 
 전체 구조와 역할 관계는 [`docs/role-architecture.md`](./docs/role-architecture.md) 참조.
 
@@ -50,8 +50,8 @@ bash ./scripts/install-global.sh --force    # 묻지 않고 덮어쓰기 (업데
 ```
 
 설치되는 위치:
-- `~/.claude/agents/` — 9개 에이전트 정의
-- `~/.claude/knowledge/` — 아뱅 심리 카탈로그·UI 디자인 시스템
+- `~/.claude/agents/` — 5개 에이전트 정의 (pm·designer·developer·qa·marketer)
+- `~/.claude/knowledge/` — 아뱅 심리 카탈로그·디자인 스타일 카탈로그
 
 업데이트는 이 레포를 `git pull` 받고 스크립트 다시 실행하면 끝.
 
@@ -83,13 +83,13 @@ Claude Code는 **프로젝트 `.claude/` 가 전역 `~/.claude/` 보다 우선**
 bash ~/.claude/bin/start-meeting.sh "이벤트 페이지 디자인"
 # → 현재 프로젝트의 .ai-team/meetings/2025-05-21-이벤트-페이지-디자인/ 폴더 생성
 #   ├ meeting.html  ← 브라우저로 열어두면 회의 진행 실시간 확인
-#   └ mockup.html   ← 강디2가 회의 마지막에 화면 채움
+#   └ mockup.html   ← 강디가 회의 마지막에 화면 채움
 ```
 
 회의 흐름:
 1. 강팀장이 첫 턴에 **안건·참석자·진행 순서** 적음
 2. 각 멤버가 호출되면 자기 색·아이콘으로 **말 + 시각**(SVG·표·Mermaid·코드) 한 턴씩 append
-3. *디자인/화면 안건이 있었으면* 강디2가 마지막에 **`mockup.html`에 모든 화면을 한 페이지 grid로** 빠르게 채움
+3. *디자인/화면 안건이 있었으면* 강디가 마지막에 **`mockup.html`에 모든 화면을 한 페이지 grid로** 빠르게 채움
 4. `meeting.html` 하단 iframe이 자동으로 mockup을 띄움 — 전원이 같은 화면을 봄
 5. 강팀장이 `<!-- SUMMARY_START -->` 블록에 **결정 / 미결정 / 다음 액션** 채움
 6. **모든 참석자가 한 줄씩** 코멘트
@@ -118,7 +118,7 @@ bash ~/.claude/bin/setup-telegram.sh
 3. 체크된 항목만 이 `Ai_Team` 레포 `.claude/knowledge/team-memory/`로 **PR**
 4. 머지 후 다른 PC에서 `install-global` 재실행 → 학습된 강팀이 다음 프로젝트에서도 작동
 
-> 이 의례를 빼먹으면 강팀은 다음 프로젝트에서 원점. 강사장·강팀장이 매번 환기.
+> 이 의례를 빼먹으면 강팀은 다음 프로젝트에서 원점. 강팀장이 매번 환기.
 
 ---
 
@@ -129,7 +129,7 @@ bash ~/.claude/bin/setup-telegram.sh
 
 - **기본 활성 스타일**: **#1 — Crowny Class** (보라→분홍 그라데이션, Pretendard, 16px 본문, radius 10/16). 전체 명세: [`.claude/knowledge/ui-designer/styles/01-crowny-class.md`](./.claude/knowledge/ui-designer/styles/01-crowny-class.md)
 - **카탈로그**: [`.claude/knowledge/ui-designer/styles/README.md`](./.claude/knowledge/ui-designer/styles/README.md) — 등록된 스타일 표 + 새 스타일 등록 방법
-- **전환**: "디자인 스타일 N번 적용해" (자연어) 또는 `/디자인스타일 N` — 강디2가 `active.txt` + 프로젝트의 `styles/tokens.css` 를 한 트랜잭션에 갱신
+- **전환**: "디자인 스타일 N번 적용해" (자연어) 또는 `/디자인스타일 N` — 강디가 `active.txt` + 프로젝트의 `styles/tokens.css` 를 한 트랜잭션에 갱신
 - **임의 HEX·새 토큰 즉석 사용 금지** — 활성 스타일 파일에 *먼저 추가* 후 사용
 - **아뱅이 들어와도 스타일 토큰은 깨지 않는다** — 차별화는 토큰을 *깊이 활용* (그라데이션 각도·그림자 레이어·마이크로 인터랙션)
 - 앞으로 #2, #3, ... 신규 스타일을 추가하며 *프로젝트별로* 활성 스타일 번호만 골라 쓰는 방향
@@ -154,19 +154,17 @@ bash ~/.claude/bin/setup-telegram.sh
 ```
 .
 ├── .claude/
-│   ├── agents/              # 9개 에이전트 정의
-│   │   ├── abang.md         # 💡 아뱅
-│   │   ├── ceo-advisor.md   # 🧭 강사장
-│   │   ├── pm.md            # 🎯 강팀장
-│   │   ├── ux-designer.md   # 🧪 강디1
-│   │   ├── ui-designer.md   # 🎨 강디2
+│   ├── agents/              # 5개 에이전트 정의
+│   │   ├── pm.md            # 🎯 강팀장 (PM + CEO 스파링)
+│   │   ├── designer.md      # 🎨 강디 (UX + UI)
 │   │   ├── developer.md     # ⚙️ 강개발
-│   │   ├── qa.md            # 🔍 강체크
-│   │   ├── marketer.md      # 📣 강홍보
-│   │   └── security.md      # 🛡️ 강감시
+│   │   ├── qa.md            # 🔍 강체크 (QA + 보안·리스크)
+│   │   └── marketer.md      # 💡 아뱅 (마케팅 + 심리·수익 아이디어)
+│   ├── commands/            # /회의시작 /진행 /강팀불러오기 /강팀업데이트 /디자인스타일
+│   ├── hooks/               # SessionStart 가드 (활성 스타일·tokens.css·버전 SHA 점검)
 │   └── knowledge/           # 에이전트가 참조하는 지식 베이스
-│       ├── abang/           # 심리 레버 카탈로그·사례
-│       ├── ui-designer/     # 디자인 시스템
+│       ├── abang/           # 심리 레버 카탈로그·사례 (아뱅이 참조)
+│       ├── ui-designer/     # 디자인 스타일 카탈로그 (styles/01-crowny-class.md 등)
 │       └── team-memory/     # 프로젝트 회고가 쌓이는 전역 브레인
 │           ├── lessons/     #   Keep / Drop / Try
 │           ├── decisions/   #   큰 결정과 근거

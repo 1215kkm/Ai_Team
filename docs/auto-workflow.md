@@ -206,7 +206,7 @@ CEO 가 ✅ 누르면 → state.json gates.deploy = "approved" → 강팀이 pro
 
 ### SecretAD 자동 홍보 (API 명세 확정 후)
 
-강홍보가 호출:
+아뱅가 호출:
 ```bash
 curl -X POST "$SECRETAD_API_URL/campaigns" \
   -H "Authorization: Bearer $SECRETAD_API_KEY" \
@@ -218,7 +218,7 @@ curl -X POST "$SECRETAD_API_URL/campaigns" \
   }'
 ```
 
-> 정확한 엔드포인트·필드는 SecretAD 레포 README 확정 후 강홍보 에이전트에 박을 예정.
+> 정확한 엔드포인트·필드는 SecretAD 레포 README 확정 후 아뱅 에이전트에 박을 예정.
 
 ---
 
@@ -232,7 +232,7 @@ curl -X POST "$SECRETAD_API_URL/campaigns" \
 
 ---
 
-## 보안 / 리스크 (강감시 메모)
+## 보안 / 리스크 (강체크 메모)
 
 | 리스크 | 대응 |
 |---|---|

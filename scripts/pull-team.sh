@@ -70,10 +70,10 @@ if [[ $LOCAL -eq 1 ]]; then
 이 레포는 강팀 (9명짜리 AI 팀)이 운영합니다.
 
 ## 발언 규칙 (절대)
-강팀 닉네임(강팀장·강디1·강디2·강개발·강체크·강홍보·강감시·아뱅·강사장)으로
+강팀 닉네임(강팀장·강디·강디·강개발·강체크·아뱅·강체크·아뱅·강팀장)으로
 발언해야 할 때는 메인 클로드가 시늉하지 말고 *반드시* `Agent` 툴로 해당
-서브에이전트(`pm`, `ux-designer`, `ui-designer`, `developer`, `qa`,
-`marketer`, `security`, `abang`, `ceo-advisor`)를 호출한다.
+서브에이전트(`pm`, `designer`, `designer`, `developer`, `qa`,
+`marketer`, `qa`, `marketer`, `pm`)를 호출한다.
 
 ## 빠른 시작
 ```bash
