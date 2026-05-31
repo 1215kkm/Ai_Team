@@ -44,7 +44,8 @@ if [[ $LOCAL -eq 1 ]]; then
   mkdir -p .claude templates scripts
   for sub in agents commands knowledge hooks; do
     if [[ -d "$TMP/ai_team/.claude/$sub" ]]; then
-      cp -r "$TMP/ai_team/.claude/$sub" ".claude/$sub"
+      mkdir -p ".claude/$sub"
+      cp -r "$TMP/ai_team/.claude/$sub/." ".claude/$sub/"
     fi
   done
   # settings.json 은 *덮어쓰지 않음* — 사용자 커스터마이즈 보호. 없을 때만 복사.
@@ -66,13 +67,12 @@ if [[ $LOCAL -eq 1 ]]; then
     cat > CLAUDE.md <<'EOF'
 # 강팀 작업 룰
 
-이 레포는 강팀 (9명짜리 AI 팀)이 운영합니다.
+이 레포는 강팀 (5명짜리 AI 팀)이 운영합니다.
 
 ## 발언 규칙 (절대)
-강팀 닉네임(강팀장·강디1·강디2·강개발·강체크·강홍보·강감시·아뱅·강사장)으로
+강팀 닉네임(강팀장·강디·강개발·강체크·아뱅)으로
 발언해야 할 때는 메인 클로드가 시늉하지 말고 *반드시* `Agent` 툴로 해당
-서브에이전트(`pm`, `ux-designer`, `ui-designer`, `developer`, `qa`,
-`marketer`, `security`, `abang`, `ceo-advisor`)를 호출한다.
+서브에이전트(`pm`, `designer`, `developer`, `qa`, `marketer`)를 호출한다.
 
 ## 빠른 시작
 ```bash
@@ -82,7 +82,8 @@ if [[ $LOCAL -eq 1 ]]; then
 ```
 
 ## 디자인 베이스
-Crowny Class 디자인 시스템 — `.claude/knowledge/ui-designer/design-system.md`
+활성 디자인 스타일 카탈로그 — `.claude/knowledge/ui-designer/styles/`
+기본 #1 Crowny Class (보라→분홍 그라데이션, Pretendard, radius 10/16, Lucide)
 EOF
     echo "  ✓ CLAUDE.md 새로 생성 (기존 룰이 있으면 안 덮어씀)"
   else

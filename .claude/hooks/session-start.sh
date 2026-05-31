@@ -30,15 +30,15 @@ if [[ -f "$ACTIVE_FILE" ]]; then
     STYLE_NAME="$(grep -m1 '^# ' "$STYLE_FILE" | sed 's/^# *//')"
     NOTES+=("🎨 활성 디자인 스타일: #${ACTIVE} — ${STYLE_NAME}  (출처: ${STYLE_FILE#./})")
   else
-    NOTES+=("⚠ active.txt 는 '#${ACTIVE}' 인데 그 번호의 스타일 파일이 없음. 강디2가 카탈로그(styles/README.md)부터 확인해야 함.")
+    NOTES+=("⚠ active.txt 는 '#${ACTIVE}' 인데 그 번호의 스타일 파일이 없음. 강디가 카탈로그(styles/README.md)부터 확인해야 함.")
   fi
 elif [[ -d ".claude/knowledge/ui-designer" ]]; then
-  NOTES+=("⚠ 활성 디자인 스타일이 정해지지 않음 (.claude/knowledge/ui-designer/styles/active.txt 없음). 강디2가 #1 로 초기화해야 함.")
+  NOTES+=("⚠ 활성 디자인 스타일이 정해지지 않음 (.claude/knowledge/ui-designer/styles/active.txt 없음). 강디가 #1 로 초기화해야 함.")
 fi
 
 # 3) tokens.css 확인 (강개발이 참조하는 단일 진입점)
 if [[ ! -f "styles/tokens.css" && -f "$ACTIVE_FILE" ]]; then
-  NOTES+=("⚠ styles/tokens.css 없음 — 활성 스타일이 정해졌지만 토큰이 코드로 박혀있지 않음. 강디2가 styles/tokens.css 를 만들고 토큰을 박아야 함.")
+  NOTES+=("⚠ styles/tokens.css 없음 — 활성 스타일이 정해졌지만 토큰이 코드로 박혀있지 않음. 강디가 styles/tokens.css 를 만들고 토큰을 박아야 함.")
 fi
 
 # 4) 강팀 버전 SHA 체크 (네트워크 있을 때만, 조용히 실패)

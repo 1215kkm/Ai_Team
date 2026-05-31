@@ -8,10 +8,10 @@
   :root {
     --bg: #fafafa; --panel: #fff; --line: #e5e7eb;
     --fg: #111827; --muted: #6b7280;
-    --c-decision: #1f2937;  /* 강사장·CEO */
+    --c-decision: #1f2937;  /* 강팀장·CEO */
     --c-hub:      #2563eb;  /* 강팀장 */
-    --c-exec:     #0f766e;  /* 강디1·강디2·강개발·강체크 */
-    --c-guard:    #7c3aed;  /* 강홍보·강감시 */
+    --c-exec:     #0f766e;  /* 강디·강개발·강체크 */
+    --c-guard:    #7c3aed;  /* 아뱅·강체크 */
     --c-wild:     #b45309;  /* 아뱅 */
   }
   * { box-sizing: border-box; }
@@ -32,10 +32,14 @@
   .bubble table { border-collapse: collapse; margin: 8px 0; }
   .bubble th, .bubble td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; font-size: 14px; }
   .bubble th { background: #f9fafb; }
-  .turn.ceo .who, .turn.advisor .who { color: var(--c-decision); }
+  /* 5인 체제 (2026-05): pm·designer·dev·qa·marketer */
   .turn.pm .who { color: var(--c-hub); }
-  .turn.ux .who, .turn.ui .who, .turn.dev .who, .turn.qa .who { color: var(--c-exec); }
-  .turn.marketer .who, .turn.security .who { color: var(--c-guard); }
+  .turn.designer .who, .turn.dev .who, .turn.qa .who { color: var(--c-exec); }
+  .turn.marketer .who { color: var(--c-wild); }
+  /* 하위호환 (옛 회의록 렌더용) */
+  .turn.ceo .who, .turn.advisor .who { color: var(--c-decision); }
+  .turn.ux .who, .turn.ui .who { color: var(--c-exec); }
+  .turn.security .who { color: var(--c-guard); }
   .turn.abang .who { color: var(--c-wild); }
   section.closing, section.summary { margin-top: 48px; border-top: 2px solid var(--line); padding-top: 32px; }
   section.closing h2, section.summary h2 { margin: 0 0 16px; font-size: 18px; }
@@ -106,7 +110,7 @@
   <div class="final-comments">
     <!-- 디자인/화면 안건이 있었던 회의는 *모든 참석자가* 여기 한 줄씩 남기고 종료 -->
     <!-- 예:
-    <div class="comment ui"><span class="who">🎨 강디2</span>: 결제 단계 CTA 위계 한 단 더 약하게.</div>
+    <div class="comment ui"><span class="who">🎨 강디</span>: 결제 단계 CTA 위계 한 단 더 약하게.</div>
     -->
     <!-- COMMENTS_START -->
 

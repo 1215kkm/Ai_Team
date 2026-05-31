@@ -117,7 +117,7 @@ fi
 
 echo
 echo "완료. 이제 어떤 레포에서든:"
-echo "  • Claude Code 열면 강사장·강팀장·강디1·강디2·강개발·강체크·강홍보·강감시·아뱅 호출 가능"
+echo "  • Claude Code 열면 5인(강팀장·강디·강개발·강체크·아뱅) 호출 가능"
 echo "  • 회의 시작:   /회의시작  (Claude Code 슬래시 커맨드)"
 echo "  • 강팀 불러오기 (다른 레포에서): \"강팀 불러와\" 또는 /강팀불러오기"
 echo "  • 텔레그램 셋업: bash ~/.claude/bin/setup-telegram.sh   (한 번만)"

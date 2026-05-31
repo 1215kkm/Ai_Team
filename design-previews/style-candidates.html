@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>강팀 디자인 스타일 후보 — #2~#6 미리보기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Archivo+Black&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============ 페이지 골격 ============ */
+  :root{
+    --page-bg:#0e1116; --page-fg:#e7ebf2; --muted:#9aa6b8;
+    --card:#161b24; --line:#262d3a; --accent:#7c6bff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Pretendard','Inter',system-ui,sans-serif;
+    background:radial-gradient(1200px 600px at 20% -10%, #1a2030 0%, var(--page-bg) 60%);
+    color:var(--page-fg); line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1280px;margin:0 auto;padding:48px 28px 96px;}
+  header.page{margin-bottom:40px;}
+  header.page h1{font-size:34px;line-height:1.2;margin:0 0 10px;font-weight:800;letter-spacing:-.02em;}
+  header.page .sub{color:var(--muted);font-size:16px;max-width:760px;}
+  header.page .tag{
+    display:inline-block;margin-top:14px;font-size:13px;color:#c9d2e2;
+    background:linear-gradient(135deg,#7c3aed,#ec4899);padding:6px 14px;border-radius:999px;font-weight:600;
+  }
+
+  /* ============ 스타일 섹션 카드(설명) ============ */
+  .style-section{margin-top:56px;padding-top:40px;border-top:1px dashed var(--line);}
+  .style-head{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;margin-bottom:24px;}
+  .style-num{
+    width:54px;height:54px;border-radius:14px;display:grid;place-items:center;
+    font-weight:800;font-size:20px;color:#fff;flex:none;
+    background:linear-gradient(135deg,#7c3aed,#ec4899);
+  }
+  .style-head h2{margin:0 0 6px;font-size:24px;font-weight:800;letter-spacing:-.01em;}
+  .style-head .slug{color:var(--muted);font-size:13px;font-family:'JetBrains Mono',monospace;}
+  .meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:18px;}
+  .meta{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;}
+  .meta .k{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+  .meta .v{font-size:14px;color:var(--page-fg);}
+  .swatches{display:flex;gap:8px;margin-top:6px;}
+  .swatches i{width:24px;height:24px;border-radius:6px;display:block;border:1px solid rgba(255,255,255,.15);}
+  .src{margin-top:14px;font-size:12.5px;color:var(--muted);}
+  .src a{color:#9db4ff;text-decoration:none;word-break:break-all;}
+  .src a:hover{text-decoration:underline;}
+
+  /* ============ 미리보기 무대(데스크탑 + 모바일 나란히) ============ */
+  .stage{
+    display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.85fr);
+    gap:24px;align-items:start;margin-top:24px;
+  }
+  @media(max-width:920px){.stage{grid-template-columns:1fr;}}
+  .frame-label{font-size:12px;color:var(--muted);margin:0 0 8px;font-weight:600;letter-spacing:.03em;}
+
+  /* 데스크탑 브라우저 크롬 */
+  .browser{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#0b0e14;box-shadow:0 24px 60px rgba(0,0,0,.5);}
+  .browser .bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:#1b2230;border-bottom:1px solid var(--line);}
+  .browser .bar .dot{width:11px;height:11px;border-radius:50%;}
+  .browser .bar .url{flex:1;margin-left:10px;background:#0e131c;border-radius:7px;padding:5px 12px;font-size:11.5px;color:#7e8aaa;font-family:'JetBrains Mono',monospace;}
+  .browser .viewport{height:460px;overflow:hidden;position:relative;}
+
+  /* 모바일 폰 프레임 9:16 */
+  .phone{width:268px;max-width:100%;margin:0 auto;border-radius:38px;padding:11px;background:#0b0e14;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.5);}
+  .phone .screen{border-radius:30px;overflow:hidden;position:relative;aspect-ratio:9/16;background:#fff;}
+  .phone .notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:22px;background:#0b0e14;border-radius:0 0 16px 16px;z-index:20;}
+
+  /* 미리보기 내부 스케일러: 같은 마크업을 데스크탑/모바일에 다른 폭으로 렌더 */
+  .render{position:absolute;inset:0;overflow:auto;}
+  .render::-webkit-scrollbar{width:0;height:0;}
+
+  .footnote{margin-top:64px;padding:20px 22px;border:1px dashed var(--line);border-radius:14px;background:var(--card);color:#c9d2e2;font-size:14px;}
+  .footnote code{background:#0e131c;padding:2px 7px;border-radius:6px;font-family:'JetBrains Mono',monospace;color:#9db4ff;}
+
+  /* =========================================================
+     아래부터는 각 스타일별 "샘플 앱" 스킨.
+     공통 마크업 구조: .app > .app-hd / .app-body(.lec-card*) / .app-cta / .app-tab
+     스타일마다 .skin-XXX 로 완전히 다른 룩을 입힌다.
+     데스크탑(.is-desktop)과 모바일(.is-mobile)에서 레이아웃 살짝 분기.
+     ========================================================= */
+  .app{height:100%;width:100%;overflow:auto;}
+  .app::-webkit-scrollbar{width:0;}
+  .app-hd{display:flex;align-items:center;justify-content:space-between;}
+  .lec-list{display:flex;flex-direction:column;}
+  .lec-card{display:flex;gap:12px;align-items:center;}
+  .lec-thumb{flex:none;display:grid;place-items:center;font-weight:800;}
+  .lec-meta h4{margin:0;}
+  .lec-meta p{margin:2px 0 0;}
+  .app-tab{display:flex;justify-content:space-around;align-items:center;}
+  .app-tab .ti{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;}
+  .ic{width:22px;height:22px;display:block;}
+  .cta{display:block;width:100%;text-align:center;cursor:pointer;border:none;font-weight:700;}
+
+  /* 데스크탑일 때 강의 리스트를 2열 그리드로 */
+  .is-desktop .lec-list{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .is-desktop .app-cta-wrap{display:flex;gap:12px;align-items:center;}
+
+  /* ================= #2 Glass Aurora (글래스모피즘) ================= */
+  .skin-glass{
+    font-family:'Outfit',sans-serif;
+    background:
+      radial-gradient(600px 300px at 15% 10%, #ff5fa2 0%, transparent 60%),
+      radial-gradient(700px 400px at 90% 20%, #5f7bff 0%, transparent 55%),
+      radial-gradient(600px 400px at 60% 100%, #46e3c8 0%, transparent 55%),
+      #1a1530;
+    color:#fff;padding:18px;
+  }
+  .skin-glass .glass{background:rgba(255,255,255,.12);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);border:1px solid rgba(255,255,255,.28);border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,.25);}
+  .skin-glass .app-hd{padding:14px 16px;margin-bottom:14px;}
+  .skin-glass .app-hd .logo{font-weight:700;font-size:17px;}
+  .skin-glass .app-hd .av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#ff5fa2,#5f7bff);}
+  .skin-glass .lec-card{padding:13px;margin:0;}
+  .skin-glass .lec-thumb{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,rgba(255,255,255,.4),rgba(255,255,255,.1));color:#fff;font-size:18px;}
+  .skin-glass .lec-meta h4{font-size:14.5px;font-weight:600;}
+  .skin-glass .lec-meta p{font-size:12px;color:rgba(255,255,255,.7);}
+  .skin-glass .cta{background:rgba(255,255,255,.9);color:#3b1d6e;border-radius:16px;padding:14px;margin-top:16px;backdrop-filter:blur(6px);}
+  .skin-glass .app-tab{margin-top:14px;padding:12px 8px;}
+  .skin-glass .app-tab .ti{color:rgba(255,255,255,.6);}
+  .skin-glass .app-tab .ti.on{color:#fff;}
+
+  /* ================= #3 Bold Brutal (뉴브루탈리즘) ================= */
+  .skin-brutal{font-family:'Space Grotesk','Archivo Black',sans-serif;background:#ffe500;color:#000;padding:16px;}
+  .skin-brutal .blk{background:#fff;border:3px solid #000;border-radius:0;box-shadow:6px 6px 0 #000;}
+  .skin-brutal .app-hd{padding:12px 14px;margin-bottom:16px;background:#00d4ff;}
+  .skin-brutal .app-hd .logo{font-family:'Archivo Black',sans-serif;font-size:18px;text-transform:uppercase;}
+  .skin-brutal .app-hd .av{width:34px;height:34px;border-radius:0;background:#ff6b9d;border:3px solid #000;}
+  .skin-brutal .lec-card{padding:12px;margin:0;background:#fff;}
+  .skin-brutal .lec-card:nth-child(2){background:#bfff00;}
+  .skin-brutal .lec-card:nth-child(3){background:#ff6b9d;}
+  .skin-brutal .lec-thumb{width:50px;height:50px;border:3px solid #000;background:#ffe500;color:#000;font-family:'Archivo Black',sans-serif;font-size:16px;}
+  .skin-brutal .lec-meta h4{font-size:15px;font-weight:700;text-transform:uppercase;}
+  .skin-brutal .lec-meta p{font-size:12px;font-weight:500;}
+  .skin-brutal .cta{background:#000;color:#ffe500;border:3px solid #000;box-shadow:6px 6px 0 #ff6b9d;border-radius:0;padding:15px;margin-top:18px;font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:.04em;}
+  .skin-brutal .app-tab{margin-top:16px;padding:12px 6px;background:#fff;}
+  .skin-brutal .app-tab .ti{font-weight:700;}
+  .skin-brutal .app-tab .ti.on{color:#000;}
+  .skin-brutal .app-tab .ti:not(.on){color:#888;}
+
+  /* ================= #4 Neon Cyber (다크 네온/사이버) ================= */
+  .skin-cyber{font-family:'JetBrains Mono','Space Grotesk',monospace;background:#07090f;color:#d8f5ff;padding:18px;}
+  .skin-cyber .panel{background:#0c1018;border:1px solid #1d3a44;border-radius:8px;box-shadow:0 0 0 1px rgba(0,255,200,.04),0 0 24px rgba(0,229,255,.06);}
+  .skin-cyber .app-hd{padding:13px 15px;margin-bottom:15px;}
+  .skin-cyber .app-hd .logo{font-weight:700;font-size:15px;color:#00e5ff;text-shadow:0 0 12px rgba(0,229,255,.7);letter-spacing:.08em;}
+  .skin-cyber .app-hd .av{width:32px;height:32px;border-radius:50%;background:radial-gradient(circle,#ff2bd6,#5f00ff);box-shadow:0 0 16px #ff2bd6;}
+  .skin-cyber .lec-card{padding:13px;margin:0;}
+  .skin-cyber .lec-card::before{content:"";width:3px;align-self:stretch;background:linear-gradient(#00e5ff,#ff2bd6);box-shadow:0 0 10px #00e5ff;border-radius:2px;}
+  .skin-cyber .lec-thumb{width:48px;height:48px;border-radius:8px;background:#101826;border:1px solid #00e5ff;color:#00e5ff;font-size:16px;box-shadow:inset 0 0 14px rgba(0,229,255,.3);}
+  .skin-cyber .lec-meta h4{font-size:14px;font-weight:700;color:#eafcff;letter-spacing:.02em;}
+  .skin-cyber .lec-meta p{font-size:11.5px;color:#5fd0e0;}
+  .skin-cyber .cta{background:linear-gradient(90deg,#00e5ff,#ff2bd6);color:#06080d;border-radius:8px;padding:15px;margin-top:16px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;box-shadow:0 0 22px rgba(0,229,255,.5);}
+  .skin-cyber .app-tab{margin-top:15px;padding:12px 6px;}
+  .skin-cyber .app-tab .ti{color:#3a5a66;}
+  .skin-cyber .app-tab .ti.on{color:#00e5ff;text-shadow:0 0 10px #00e5ff;}
+
+  /* ================= #5 Soft Clay (클레이모피즘) ================= */
+  .skin-clay{font-family:'Outfit',sans-serif;background:#e8ecf6;color:#3a3550;padding:18px;}
+  .skin-clay .clay{background:#f3f5fc;border-radius:24px;box-shadow:8px 8px 18px rgba(174,180,210,.6), -8px -8px 18px #ffffff, inset 2px 2px 6px rgba(255,255,255,.9);}
+  .skin-clay .app-hd{padding:14px 16px;margin-bottom:16px;}
+  .skin-clay .app-hd .logo{font-weight:700;font-size:17px;color:#6c5ce7;}
+  .skin-clay .app-hd .av{width:36px;height:36px;border-radius:50%;background:#ffb6d5;box-shadow:inset 3px 3px 6px rgba(255,255,255,.8),inset -3px -3px 6px rgba(180,120,150,.4),4px 4px 10px rgba(174,180,210,.5);}
+  .skin-clay .lec-card{padding:14px;margin:0;}
+  .skin-clay .lec-thumb{width:54px;height:54px;border-radius:20px;background:#c9b8ff;color:#fff;font-size:18px;box-shadow:inset 3px 3px 7px rgba(255,255,255,.7),inset -3px -3px 7px rgba(120,90,200,.4),5px 5px 12px rgba(174,180,210,.55);}
+  .skin-clay .lec-meta h4{font-size:15px;font-weight:600;color:#42385f;}
+  .skin-clay .lec-meta p{font-size:12.5px;color:#9a93b3;}
+  .skin-clay .cta{background:#7c6bff;color:#fff;border-radius:20px;padding:16px;margin-top:18px;font-weight:700;box-shadow:6px 6px 14px rgba(124,107,255,.45),inset 2px 2px 5px rgba(255,255,255,.4),inset -2px -2px 5px rgba(70,50,180,.4);}
+  .skin-clay .app-tab{margin-top:16px;padding:13px 8px;}
+  .skin-clay .app-tab .ti{color:#a9a3c0;}
+  .skin-clay .app-tab .ti.on{color:#6c5ce7;}
+
+  /* ================= #6 Swiss Grid (스위스/미니멀) ================= */
+  .skin-swiss{font-family:'Inter',sans-serif;background:#ffffff;color:#111;padding:20px;}
+  .skin-swiss .app-hd{padding:0 0 16px;margin-bottom:18px;border-bottom:2px solid #111;}
+  .skin-swiss .app-hd .logo{font-weight:800;font-size:18px;letter-spacing:-.02em;}
+  .skin-swiss .app-hd .av{width:30px;height:30px;border-radius:0;background:#ff3b00;}
+  .skin-swiss .lec-list{gap:0;}
+  .skin-swiss .lec-card{padding:14px 0;margin:0;border-bottom:1px solid #e4e4e4;}
+  .skin-swiss .is-desktop .lec-card{border-bottom:1px solid #e4e4e4;}
+  .skin-swiss .lec-thumb{width:46px;height:46px;border-radius:0;background:#111;color:#fff;font-size:15px;font-weight:800;}
+  .skin-swiss .lec-card:nth-child(2) .lec-thumb{background:#ff3b00;}
+  .skin-swiss .lec-meta h4{font-size:15px;font-weight:700;letter-spacing:-.01em;}
+  .skin-swiss .lec-meta p{font-size:12.5px;color:#888;}
+  .skin-swiss .cta{background:#111;color:#fff;border-radius:0;padding:16px;margin-top:20px;font-weight:600;letter-spacing:.02em;}
+  .skin-swiss .app-tab{margin-top:18px;padding:14px 6px 4px;border-top:2px solid #111;}
+  .skin-swiss .app-tab .ti{color:#999;font-weight:500;}
+  .skin-swiss .app-tab .ti.on{color:#111;font-weight:700;}
+
+  /* 헤더 dot 색 */
+  .dot.r{background:#ff5f57;}.dot.y{background:#febc2e;}.dot.g{background:#28c840;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="page">
+    <h1>강팀 디자인 스타일 후보 — 카탈로그 #2 ~ #6 미리보기</h1>
+    <p class="sub">
+      기존 <b>#1 Crowny Class</b>(보라→분홍 그라데이션 · Pretendard · radius 10/16 · Lucide)와
+      <b>확실히 구별되는</b> 2025~2026 인기 UI 트렌드 5종을 골랐습니다. 각 스타일을 같은 샘플 앱
+      (강의/클래스 신청 화면 — 헤더 · 강의 카드 리스트 · CTA · 하단 탭바)으로 렌더해
+      <b>PC + 모바일</b> 두 화면으로 비교합니다.
+    </p>
+    <span class="tag">샘플 앱: 클래스 신청 화면 · 5스타일 × 2화면 = 10개 미리보기</span>
+  </header>
+
+  <!-- ===================== #2 GLASS ===================== -->
+  <section class="style-section">
+    <div class="style-head">
+      <div class="style-num">2</div>
+      <div>
+        <h2>Glass Aurora — 글래스모피즘 (Glassmorphism 2.0)</h2>
+        <div class="slug">styles/02-glass-aurora.md</div>
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta"><div class="k">특징</div><div class="v">반투명 프로스티드 글래스 + backdrop-blur, 컬러풀한 오로라 배경 위 레이어드 깊이감</div></div>
+      <div class="meta"><div class="k">색</div><div class="v">컬러 그라데이션 배경 + 흰색 12~25% 투명 패널<div class="swatches"><i style="background:#ff5fa2"></i><i style="background:#5f7bff"></i><i style="background:#46e3c8"></i><i style="background:rgba(255,255,255,.4)"></i></div></div></div>
+      <div class="meta"><div class="k">폰트 / 모서리 / 효과</div><div class="v">Outfit · radius 16~20 · blur 18px / saturate 160% · 1px 흰색 28% 테두리</div></div>
+      <div class="meta"><div class="k">추천 용도</div><div class="v">프리미엄 SaaS 대시보드, 음악·핀테크 앱, 화려한 배경 위 위젯</div></div>
+    </div>
+    <div class="src">출처:
+      <a href="https://www.zignuts.com/blog/neumorphism-vs-glassmorphism">zignuts.com/blog/neumorphism-vs-glassmorphism</a> ·
+      <a href="https://www.studiolimb.com/guides/glassmorphism-css-tutorial.html">studiolimb.com glassmorphism-css-tutorial</a> ·
+      <a href="https://intellure.co/blog/glassmorphism-guide">intellure.co glassmorphism-guide</a>
+    </div>
+    <div class="stage">
+      <div>
+        <p class="frame-label">데스크탑 (와이드)</p>
+        <div class="browser">
+          <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">class.app/glass</span></div>
+          <div class="viewport"><div class="render" data-skin="glass" data-mode="desktop"></div></div>
+        </div>
+      </div>
+      <div>
+        <p class="frame-label">모바일 (9:16)</p>
+        <div class="phone"><div class="screen"><div class="notch"></div><div class="render" data-skin="glass" data-mode="mobile"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== #3 BRUTAL ===================== -->
+  <section class="style-section">
+    <div class="style-head">
+      <div class="style-num">3</div>
+      <div>
+        <h2>Bold Brutal — 뉴브루탈리즘 (Neubrutalism)</h2>
+        <div class="slug">styles/03-bold-brutal.md</div>
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta"><div class="k">특징</div><div class="v">두꺼운 검정 테두리(3px) + 0px 모서리 + 블러 0의 하드 오프셋 그림자, 원색·대문자</div></div>
+      <div class="meta"><div class="k">색</div><div class="v">고채도 원색 + 검정 윤곽<div class="swatches"><i style="background:#ffe500"></i><i style="background:#00d4ff"></i><i style="background:#ff6b9d"></i><i style="background:#bfff00"></i></div></div></div>
+      <div class="meta"><div class="k">폰트 / 모서리 / 효과</div><div class="v">Space Grotesk · Archivo Black · radius 0 · shadow 6px 6px 0 #000</div></div>
+      <div class="meta"><div class="k">추천 용도</div><div class="v">젊은 브랜드, 이벤트·굿즈·커뮤니티, 강한 개성으로 눈에 띄어야 할 때</div></div>
+    </div>
+    <div class="src">출처:
+      <a href="https://neubrutalism.com/">neubrutalism.com</a> ·
+      <a href="https://seedflip.co/blog/neubrutalism-color-palette">seedflip.co neubrutalism-color-palette</a> ·
+      <a href="https://www.nngroup.com/articles/neobrutalism/">nngroup.com/articles/neobrutalism</a>
+    </div>
+    <div class="stage">
+      <div>
+        <p class="frame-label">데스크탑 (와이드)</p>
+        <div class="browser">
+          <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">class.app/brutal</span></div>
+          <div class="viewport"><div class="render" data-skin="brutal" data-mode="desktop"></div></div>
+        </div>
+      </div>
+      <div>
+        <p class="frame-label">모바일 (9:16)</p>
+        <div class="phone"><div class="screen"><div class="notch"></div><div class="render" data-skin="brutal" data-mode="mobile"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== #4 CYBER ===================== -->
+  <section class="style-section">
+    <div class="style-head">
+      <div class="style-num">4</div>
+      <div>
+        <h2>Neon Cyber — 다크 네온 / 사이버펑크</h2>
+        <div class="slug">styles/04-neon-cyber.md</div>
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta"><div class="k">특징</div><div class="v">트루블랙 배경에 네온 액센트(시안·마젠타) 글로우, 모노스페이스, 얇은 발광 테두리</div></div>
+      <div class="meta"><div class="k">색</div><div class="v">차콜~검정 + 단일 고채도 네온<div class="swatches"><i style="background:#07090f"></i><i style="background:#00e5ff"></i><i style="background:#ff2bd6"></i><i style="background:#5f00ff"></i></div></div></div>
+      <div class="meta"><div class="k">폰트 / 모서리 / 효과</div><div class="v">JetBrains Mono · radius 8 · text-shadow / box-shadow 네온 글로우</div></div>
+      <div class="meta"><div class="k">추천 용도</div><div class="v">게이밍·웹3·개발툴, 야간 모드 우선 앱, 테크 컨퍼런스 랜딩</div></div>
+    </div>
+    <div class="src">출처:
+      <a href="https://www.figma.com/resource-library/web-design-trends/">figma.com web-design-trends</a> ·
+      <a href="https://fireart.studio/blog/the-best-web-design-trends/">fireart.studio best-web-design-trends</a> ·
+      <a href="https://blog.tubikstudio.com/ui-design-trends-2026/">tubikstudio.com ui-design-trends-2026</a>
+    </div>
+    <div class="stage">
+      <div>
+        <p class="frame-label">데스크탑 (와이드)</p>
+        <div class="browser">
+          <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">class.app/cyber</span></div>
+          <div class="viewport"><div class="render" data-skin="cyber" data-mode="desktop"></div></div>
+        </div>
+      </div>
+      <div>
+        <p class="frame-label">모바일 (9:16)</p>
+        <div class="phone"><div class="screen"><div class="notch"></div><div class="render" data-skin="cyber" data-mode="mobile"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== #5 CLAY ===================== -->
+  <section class="style-section">
+    <div class="style-head">
+      <div class="style-num">5</div>
+      <div>
+        <h2>Soft Clay — 클레이모피즘 (Claymorphism)</h2>
+        <div class="slug">styles/05-soft-clay.md</div>
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta"><div class="k">특징</div><div class="v">부드러운 점토 느낌 — 이중 인너 섀도(밝음+어두움)+외부 섀도로 통통한 3D, 친근함</div></div>
+      <div class="meta"><div class="k">색</div><div class="v">파스텔 라이트 배경 + 부드러운 보라/핑크<div class="swatches"><i style="background:#e8ecf6"></i><i style="background:#c9b8ff"></i><i style="background:#ffb6d5"></i><i style="background:#7c6bff"></i></div></div></div>
+      <div class="meta"><div class="k">폰트 / 모서리 / 효과</div><div class="v">Outfit · radius 20~24 · 이중 inset + 외부 soft shadow</div></div>
+      <div class="meta"><div class="k">추천 용도</div><div class="v">교육·키즈·웰빙·습관 앱, 따뜻하고 손에 잡힐 듯한 친근한 톤</div></div>
+    </div>
+    <div class="src">출처:
+      <a href="https://www.zignuts.com/blog/neumorphism-vs-glassmorphism">zignuts.com neumorphism-vs-glassmorphism</a> ·
+      <a href="https://www.cccreative.design/blogs/differences-in-ui-design-trends-neumorphism-glassmorphism-and-neubrutalism">cccreative.design ui-design-trends</a> ·
+      <a href="https://www.wearetenet.com/blog/ui-ux-design-trends">wearetenet.com ui-ux-design-trends</a>
+    </div>
+    <div class="stage">
+      <div>
+        <p class="frame-label">데스크탑 (와이드)</p>
+        <div class="browser">
+          <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">class.app/clay</span></div>
+          <div class="viewport"><div class="render" data-skin="clay" data-mode="desktop"></div></div>
+        </div>
+      </div>
+      <div>
+        <p class="frame-label">모바일 (9:16)</p>
+        <div class="phone"><div class="screen"><div class="notch"></div><div class="render" data-skin="clay" data-mode="mobile"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== #6 SWISS ===================== -->
+  <section class="style-section">
+    <div class="style-head">
+      <div class="style-num">6</div>
+      <div>
+        <h2>Swiss Grid — 스위스 / 인터내셔널 미니멀</h2>
+        <div class="slug">styles/06-swiss-grid.md</div>
+      </div>
+    </div>
+    <div class="meta-grid">
+      <div class="meta"><div class="k">특징</div><div class="v">엄격한 그리드, 흑백 + 단일 강조색, 무장식 라인 구분, 콘텐츠·타이포 중심의 절제</div></div>
+      <div class="meta"><div class="k">색</div><div class="v">흰 배경 · 검정 텍스트 + 단일 액센트<div class="swatches"><i style="background:#ffffff"></i><i style="background:#111111"></i><i style="background:#ff3b00"></i><i style="background:#e4e4e4"></i></div></div></div>
+      <div class="meta"><div class="k">폰트 / 모서리 / 효과</div><div class="v">Inter (Helvetica 계열) · radius 0 · 그림자 없음 · 1~2px 라인</div></div>
+      <div class="meta"><div class="k">추천 용도</div><div class="v">B2B·금융·포트폴리오·뉴스, 신뢰감·가독성·정보 밀도가 중요할 때</div></div>
+    </div>
+    <div class="src">출처:
+      <a href="https://www.digitalsilk.com/digital-trends/minimalist-web-design-trends/">digitalsilk.com minimalist-web-design-trends</a> ·
+      <a href="https://www.figma.com/resource-library/web-design-trends/">figma.com web-design-trends</a> ·
+      <a href="https://blog.tubikstudio.com/ui-design-trends-2026/">tubikstudio.com ui-design-trends-2026</a>
+    </div>
+    <div class="stage">
+      <div>
+        <p class="frame-label">데스크탑 (와이드)</p>
+        <div class="browser">
+          <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="url">class.app/swiss</span></div>
+          <div class="viewport"><div class="render" data-skin="swiss" data-mode="desktop"></div></div>
+        </div>
+      </div>
+      <div>
+        <p class="frame-label">모바일 (9:16)</p>
+        <div class="phone"><div class="screen"><div class="notch"></div><div class="render" data-skin="swiss" data-mode="mobile"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footnote">
+    이 중 추가할 스타일을 고르면 <code>.claude/knowledge/ui-designer/styles/0N-슬러그.md</code> 로 카탈로그에 등록합니다 (제안 번호: Glass #2 · Brutal #3 · Cyber #4 · Clay #5 · Swiss #6).
+    이 파일은 미리보기 전용 — CEO 승인 전까지 <code>active.txt</code> 와 카탈로그는 건드리지 않습니다.
+  </div>
+
+</div>
+
+<!-- 같은 샘플 앱 마크업을 모든 미리보기에 주입. 스킨/모드별 래퍼 클래스만 다르게. -->
+<script>
+(function(){
+  // 각 스킨의 셸 클래스 + 헤더/카드/탭에 입힐 표면 클래스
+  var skinMap = {
+    glass:  {shell:'skin-glass',  surf:'glass',  cta:'cta', logo:'CLASS'},
+    brutal: {shell:'skin-brutal', surf:'blk',    cta:'cta', logo:'CLASS!!'},
+    cyber:  {shell:'skin-cyber',  surf:'panel',  cta:'cta', logo:'// CLASS'},
+    clay:   {shell:'skin-clay',   surf:'clay',   cta:'cta', logo:'Class'},
+    swiss:  {shell:'skin-swiss',  surf:'',       cta:'cta', logo:'CLASS'}
+  };
+
+  var lectures = [
+    {t:'피그마 UI 디자인 입문', s:'8주 · 입문 · 매주 화 20:00', tag:'UI'},
+    {t:'프론트엔드 실전 React', s:'12주 · 중급 · 라이브+VOD', tag:'FE'},
+    {t:'브랜드 카피라이팅', s:'4주 · 워크숍 · 정원 20명', tag:'CW'},
+    {t:'데이터 분석 부트캠프', s:'10주 · 실무 · 프로젝트 3개', tag:'DA'}
+  ];
+
+  var homeIcon = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>';
+  var bookIcon = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h13a2 2 0 0 1 2 2v14H6a2 2 0 0 1-2-2z"/><path d="M8 4v14"/></svg>';
+  var heartIcon = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 8.5c0 4-7 9-7 9s-7-5-7-9a4 4 0 0 1 7-2.5A4 4 0 0 1 19 8.5z"/></svg>';
+  var userIcon = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>';
+
+  function build(skin, mode){
+    var m = skinMap[skin];
+    var isD = mode === 'desktop';
+    // 데스크탑은 강의 4개, 모바일은 3개
+    var list = isD ? lectures : lectures.slice(0,3);
+    var surf = m.surf ? (' '+m.surf) : '';
+
+    var cards = list.map(function(L){
+      return ''
+        + '<div class="lec-card'+surf+'">'
+        +   '<div class="lec-thumb">'+L.tag+'</div>'
+        +   '<div class="lec-meta"><h4>'+L.t+'</h4><p>'+L.s+'</p></div>'
+        + '</div>';
+    }).join('');
+
+    return ''
+      + '<div class="app '+m.shell+' '+(isD?'is-desktop':'is-mobile')+'">'
+      +   '<div class="app-hd'+surf+'">'
+      +     '<span class="logo">'+m.logo+'</span>'
+      +     '<span class="av"></span>'
+      +   '</div>'
+      +   '<div class="lec-list">'+cards+'</div>'
+      +   '<button class="cta">수강 신청하기 →</button>'
+      +   '<div class="app-tab'+surf+'">'
+      +     '<span class="ti on">'+homeIcon+'홈</span>'
+      +     '<span class="ti">'+bookIcon+'강의</span>'
+      +     '<span class="ti">'+heartIcon+'찜</span>'
+      +     '<span class="ti">'+userIcon+'내정보</span>'
+      +   '</div>'
+      + '</div>';
+  }
+
+  document.querySelectorAll('.render').forEach(function(el){
+    el.innerHTML = build(el.dataset.skin, el.dataset.mode);
+  });
+})();
+</script>
+</body>
+</html>

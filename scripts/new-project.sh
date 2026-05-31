@@ -193,6 +193,29 @@ cat > CLAUDE.md <<EOF
 - 회의록·목업: \`.ai-team/meetings/\`
 EOF
 
+# 4b) README.md — 빈 레포에 들어오는 *새* 클로드 세션이 첫 메시지에 보게 하는 진입점
+#     (글로벌 트리거 룰이 없는 PC·컨테이너에서도 "강팀 불러와"가 작동하게 만드는 핵심)
+cat > README.md <<EOF
+# $NAME
+
+> **이 레포는 강팀(Ai_Team) 5명짜리 AI 팀이 운영합니다.**
+> 클로드 코드 세션 첫 메시지로 아래를 그대로 채팅창에 붙여넣으세요 — 강팀이 자동으로 박힙니다.
+>
+> \`\`\`
+> 이거 한 줄 돌려줘: curl -fsSL https://raw.githubusercontent.com/1215kkm/Ai_Team/main/scripts/pull-team.sh | bash
+> \`\`\`
+>
+> 강팀 도착 후 \`/회의시작\` 으로 첫 회의. 자세한 룰은 \`CLAUDE.md\`.
+
+## 스택
+- 프론트: $STACK
+- 디자인 토큰: \`styles/tokens.css\` (활성 스타일 #1 Crowny Class)
+- 회의록·목업: \`.ai-team/meetings/\`
+
+## 강팀 5명
+🎯 강팀장(pm) · 🎨 강디(designer) · ⚙️ 강개발(developer) · 🔍 강체크(qa) · 💡 아뱅(marketer)
+EOF
+
 # 5) 스택별 골조
 case "$STACK" in
   html)
