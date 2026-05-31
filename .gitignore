@@ -1,2 +1,7 @@
 .claude/settings.local.json
 .claude/.kang-version
+
+# 강팀 휘발성 파일 — Ralph Wiggum Loop 컨텍스트 (회의별 임시)
+.ai-team/last-*.txt
+
+# 회의록·목업은 커밋 (meetings/), 휘발성만 제외
