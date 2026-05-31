@@ -6,7 +6,7 @@
 
 - **실선** = 정상 라인(태스크/산출물이 위→아래로 흐름)
 - **점선** = 와일드카드 호출 / 검토 루프 / 에스컬레이션
-- **디자인 베이스** = **"Crowny Class 디자인 시스템"** (보라→분홍 그라데이션, Pretendard, Lucide — 강디·강디가 박는 절대 원칙, 아뱅도 토큰은 깨지 않음. 전체: [`../.claude/knowledge/ui-designer/design-system.md`](../.claude/knowledge/ui-designer/design-system.md))
+- **디자인 베이스** = **"Crowny Class 디자인 시스템"** (보라→분홍 그라데이션, Pretendard, Lucide — 강디가 박는 절대 원칙, 아뱅도 토큰은 깨지 않음. 전체: [`../.claude/knowledge/ui-designer/design-system.md`](../.claude/knowledge/ui-designer/design-system.md))
 
 ---
 
@@ -164,7 +164,7 @@ flowchart TB
 | 답이 *너무 정석*일 때 | **아뱅** | — |
 | 테스트는 통과하는데 사용자 불만 | **강체크** | 아뱅 (근본 원인이 심리·설계일 수 있음) |
 | 법·약관·다크패턴 의심 | **강체크** | 강팀장 (치명 시 사용자 직보) |
-| 디자인 시스템 토큰 밖 색·폰트가 보일 때 | **강팀장**이 강디·강디에 *반려* | — |
+| 디자인 시스템 토큰 밖 색·폰트가 보일 때 | **강팀장**이 강디에 *반려* | — |
 
 ---
 
@@ -209,4 +209,4 @@ sequenceDiagram
 1. **결정은 위로, 산출물은 아래로.** CEO만 결정한다. 강팀장은 분해만, 강팀장은 정리만.
 2. **강체크·강체크 통과 없이는 배포 없다.** 두 감시 레이어가 같은 산출물을 다른 각도로 본다(사용자 경험 vs 리스크).
 3. **아뱅은 라인 밖이다.** 점선으로 매달려 있다가 *통념대로 굳을 때*만 끼어든다 — 정상 라인을 대체하지 않는다.
-4. **디자인 베이스 = "Crowny Class 디자인 시스템".** 강디·강디가 박고, 강팀장이 반려권으로 지키고, 아뱅도 *토큰은 깨지 않는다*. 차별화는 *임의 색·폰트 추가*가 아니라 *카피·타이밍·심리·기존 토큰 깊이 활용*으로 푼다. 전체 시스템: [`../.claude/knowledge/ui-designer/design-system.md`](../.claude/knowledge/ui-designer/design-system.md)
+4. **디자인 베이스 = "Crowny Class 디자인 시스템".** 강디가 박고, 강팀장이 반려권으로 지키고, 아뱅도 *토큰은 깨지 않는다*. 차별화는 *임의 색·폰트 추가*가 아니라 *카피·타이밍·심리·기존 토큰 깊이 활용*으로 푼다. 전체 시스템: [`../.claude/knowledge/ui-designer/design-system.md`](../.claude/knowledge/ui-designer/design-system.md)
