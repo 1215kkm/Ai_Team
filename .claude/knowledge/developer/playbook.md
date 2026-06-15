@@ -60,6 +60,10 @@ Tailwind / Bootstrap / Bulma / Foundation / MUI / Chakra / styled-components 도
 3. 가설이 5개 넘으면 *어디 잘못 봤는지* 의심 (전제 점검).
 4. 추측으로 고치지 말 것.
 
+### 기능 단위를 *통째로* 감사할 땐 — 전수조사
+단일 버그 대응이 아니라 "이 기능 전체를 점검하라"는 요청이면 **전수조사 패턴**을 쓴다: 표본 아닌 *전 경로 sweep* → 결함마다 `파일:라인`+재현 → 버그 1개 찾으면 *같은 유형*을 코드 전체에서 재탐(ACK 없음·끊김 잔여물·틱 기반 시간·세션 꼬임·빈 catch·스냅샷 함정) → 프로토콜이면 *양쪽 병렬* → *수정 전 진단 먼저 제시* → 부수영향("기존 기능 깨나?") 명시 → 계측으로 검증.
+상세: [`.claude/knowledge/team-memory/patterns/exhaustive-audit.md`](../team-memory/patterns/exhaustive-audit.md)
+
 ---
 
 ## 4. 응답 패턴
