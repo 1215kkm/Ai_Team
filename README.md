@@ -8,7 +8,29 @@
 
 ---
 
-## 가장 빠른 사용법 — 다른 레포에서 "강팀 불러와"
+## ⚡ 새 프로젝트 시작 — **손가락 0번** (가장 빠른 길)
+
+이 레포는 **GitHub Public Template** 입니다. 새 사업/프로젝트 시작 시:
+
+### 모바일·웹
+1. 이 페이지 상단 **"Use this template"** → **"Create a new repository"**
+2. 이름 입력 → **Create repository**
+
+→ 새 레포에 강팀 5명·hooks·디자인 시스템·playbook 전부 *처음 커밋부터* 박혀 있음. `curl` 칠 일 0번. 그 새 레포에서 클로드 코드 열면 `/회의시작` 바로 가능.
+
+### CLI (`gh` 깔린 PC)
+```bash
+gh repo create my-new-project --template 1215kkm/Ai_Team --private --clone
+cd my-new-project
+# 클로드 코드 열고 → /회의시작
+```
+
+> Template 으로 만든 새 레포의 README 는 *이 강팀 본체 README* 그대로 들어옵니다.
+> 첫 커밋 직후 `README.md` 를 프로젝트 소개로 *직접 갱신* 하시면 됩니다.
+
+---
+
+## 가장 빠른 사용법 — 기존 레포에 강팀 박기 ("강팀 불러와")
 
 > **새 PC 처음 잡으셨다면 → [`docs/새PC셋업.md`](./docs/새PC셋업.md) (2줄로 끝)**
 
