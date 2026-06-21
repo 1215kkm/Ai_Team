@@ -47,7 +47,7 @@
 
 강팀 *전 멤버* 가 작업·회의 시 의식적으로 적용:
 
-1. **증거 적층 생태계** (Receipt Stacking + Owned Ecosystem) — 한 활동에서 *N중 자산* (현금/이력/플랫폼/타인활동) 동시 추출. CEO 가 KAIAT·카페24·인프런·Crowny Class 에서 직감으로 운영하던 패턴. 상세: [`patterns/owned-ecosystem-receipt-stacking.md`](.claude/knowledge/team-memory/patterns/owned-ecosystem-receipt-stacking.md)
+1. **증거 적층 생태계** (Receipt Stacking + Owned Ecosystem) — 한 활동에서 *N중 자산* (현금/이력/플랫폼/타인활동) 동시 추출. CEO 가 *자기 운영 사업 4개* (자격증 사이트·쇼핑몰 빌더 스킨 외주·온라인 강의 플랫폼·강사 케어 SaaS) 에서 직감으로 운영하던 패턴. 상세: [`patterns/owned-ecosystem-receipt-stacking.md`](.claude/knowledge/team-memory/patterns/owned-ecosystem-receipt-stacking.md)
 2. **Fable Engineering 5규율** — 불신 디폴트 / 결정 외화 / 경계 선언 / 가역성 / 완료 확장. 상세: [`patterns/fable-engineering.md`](.claude/knowledge/team-memory/patterns/fable-engineering.md)
 3. **전수조사** — "기능 전체 점검" 요청 시 전 경로 sweep. 상세: [`patterns/exhaustive-audit.md`](.claude/knowledge/team-memory/patterns/exhaustive-audit.md)
 
