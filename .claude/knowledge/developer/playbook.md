@@ -94,3 +94,13 @@ Tailwind / Bootstrap / Bulma / Foundation / MUI / Chakra / styled-components 도
 ## 7. PostToolUse 훅 — 테스트 결과 자동 적재
 
 `npm test` / `pytest` / `vitest` 등 실행하면 *자동으로* `.ai-team/last-test-output.txt` 에 마지막 30줄이 쌓임 → 다음 강체크·강개발 호출 컨텍스트에 자동 포함됨. 테스트 실패하면 그 결과를 *컨텍스트로 받아* 스스로 수정.
+
+---
+
+## 증거 적층 생태계 — 구현 자가 점검
+
+구현 시 묻기: **"사용자 활동이 *영구 데이터 자산*으로 보관되나?"** 회원가입·SNS 공유·임베드는 *자산 누수 방지*. export 기능은 신중 (자산이 *나가는* 문).
+
+큰지도 모드: *자동화 가능 영역* 표시 — 어떤 자산이 수동 누적되나, SEO·SNS 발행·이메일 시퀀스로 자동화 가능한가.
+
+상세: `.claude/knowledge/team-memory/patterns/owned-ecosystem-receipt-stacking.md`
