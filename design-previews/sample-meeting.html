@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>강팀 회의록</title>
+<title>강팀 회의록 — 합격 사례 게시판 이름 짓기</title>
 
 <!-- Pretendard (본문/UI) -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
@@ -323,20 +323,18 @@ body{
     <!-- ================= 헤더 ================= -->
     <header class="header">
       <div class="brand">강팀 · Crowny Class</div>
-      <h1 id="mtTitle">회의 주제를 입력하세요</h1>
+      <h1 id="mtTitle">합격 사례 게시판 이름 짓기 + 첫 화면</h1>
       <div class="meta">
-        <span>📅 <span id="mtDate">YYYY-MM-DD</span></span>
-        <span>📁 <span id="mtProject">프로젝트명</span></span>
+        <span>📅 <span id="mtDate">2026-07-01</span></span>
+        <span>📁 <span id="mtProject">크라톡 (CrowTalk)</span></span>
       </div>
     </header>
 
     <!-- ================= 참여자 범례 ================= -->
-    <!-- 이 회의 참여 멤버만 칩으로 남기세요 (미참여자 칩은 삭제) -->
     <div class="legend">
       <div class="legend-label">참여자</div>
       <span class="chip pm"><span class="emoji">🎯</span> 강대표</span>
       <span class="chip designer"><span class="emoji">🎨</span> 강디</span>
-      <span class="chip dev"><span class="emoji">⚙️</span> 강개발</span>
       <span class="chip qa"><span class="emoji">🔍</span> 강체크</span>
       <span class="chip marketer"><span class="emoji">💡</span> 아뱅</span>
       <span class="chip ceo"><span class="emoji">👤</span> CEO</span>
@@ -346,20 +344,89 @@ body{
     <div class="turns">
       <!-- TURNS_START -->
 
-      <!-- 표준 turn 블록 예시 (복사해서 사용) — 클래스: pm/designer/dev/qa/marketer/ceo
+      <div class="turn pm">
+        <div class="who"><span class="badge">🎯</span> 강대표</div>
+        <div class="bubble">
+          <p>오늘 딱 두 개만. 합격 사례 게시판 이름, 그리고 첫 화면 뼈대. 이름부터 갑니다. 후보 던져 보세요.</p>
+          <p class="aside">(이름 하나에 회의 한 시간 쓰면 안 된다. 15분 안에 끊는다.)</p>
+        </div>
+      </div>
+
+      <div class="turn marketer">
+        <div class="who"><span class="badge">💡</span> 아뱅</div>
+        <div class="bubble">
+          <p>세 개 뽑아왔습니다. 하나 — "합격각". 짧고 밈처럼 퍼져요. 둘 — "붙자". 명령형이라 클릭 유발이 세고요. 셋 — 무난하게 "합격 사례 게시판".</p>
+          <p class="aside">("합격각"이 제일 자신 있다. 요즘 애들 말투에 딱 붙는다.)</p>
+        </div>
+      </div>
+
       <div class="turn designer">
         <div class="who"><span class="badge">🎨</span> 강디</div>
         <div class="bubble">
-          <p>대사...</p>
-          <p class="aside">(속마음 — 괄호만, 접두어 없음)</p>
+          <p>저는 "합격각" 완전 예쁘다고 봐요! 로고에 왕관 아이콘 얹으면 브랜드랑도 딱이고요. 제가 봤을 때는 첫 화면 상단에 그라데이션으로 크게 박으면 진짜 임팩트 있을 것 같은데요~</p>
+          <p class="aside">(사실 "붙자"는 좀 촌스럽지 않나… 근데 아뱅님 앞에서 그 말은 못 하겠고.)</p>
         </div>
       </div>
-      -->
+
+      <div class="turn qa">
+        <div class="who"><span class="badge">🔍</span> 강체크</div>
+        <div class="bubble">
+          <p>잠깐요. "합격각" 검색하면 수능·공무원 밈이 먼저 잡혀요. 우리 서비스가 검색 결과 3페이지로 밀립니다. SEO 관점에서 "합격 사례"라는 정확한 키워드가 제목에 있어야 유입이 붙어요.</p>
+          <p class="aside">(예쁜 건 알겠는데, 아무도 못 찾는 이름이 무슨 소용이야.)</p>
+        </div>
+      </div>
+
+      <div class="turn designer">
+        <div class="who"><span class="badge">🎨</span> 강디</div>
+        <div class="bubble">
+          <p>아… 검색은 생각 못 했네요. 그럼 화면에 크게 보이는 이름은 "합격각"으로 하고, 페이지 제목 태그랑 URL만 "합격 사례"로 가면 안 될까요…?</p>
+          <p class="aside">(방금 좀 위축됐다. 근데 지금 생각한 절충안 나쁘지 않은 것 같은데.)</p>
+        </div>
+      </div>
+
+      <div class="turn qa">
+        <div class="who"><span class="badge">🔍</span> 강체크</div>
+        <div class="bubble">
+          <p>화면 이름 따로, 메타 태그 따로 가면 나중에 유지보수하는 사람이 헷갈려요. 이름은 하나로 통일하는 게 맞습니다. 저는 "합격 사례 게시판"에 한 표.</p>
+          <p class="aside">(절충안이 나쁘진 않았다. 근데 규칙은 규칙이지.)</p>
+        </div>
+      </div>
+
+      <div class="turn marketer">
+        <div class="who"><span class="badge">💡</span> 아뱅</div>
+        <div class="bubble">
+          <p>"합격 사례 게시판"은 너무 관공서 느낌이에요. 클릭하고 싶은 맛이 없잖아요. 검색 걱정되면 "합격 스토리" 어때요? 사람 냄새 나면서 "합격"이라는 키워드는 살아있고요.</p>
+          <p class="aside">(강체크 말도 일리는 있다. 근데 밋밋한 이름으로 지면 나도 못 참지.)</p>
+        </div>
+      </div>
+
+      <div class="turn ceo">
+        <div class="who"><span class="badge">👤</span> CEO</div>
+        <div class="bubble">
+          <p>"합격 스토리" 괜찮네요. 검색도 잡히고 딱딱하지도 않고. 그걸로 갑시다. 첫 화면은 그 아래로 붙이죠.</p>
+        </div>
+      </div>
+
+      <div class="turn pm">
+        <div class="who"><span class="badge">🎯</span> 강대표</div>
+        <div class="bubble">
+          <p>정리. 이름은 "합격 스토리". 화면 표기·URL·메타 태그 전부 통일. 강디, 첫 화면은 상단 그라데이션 배너 + 합격 카드 리스트 2단, 오늘 목업까지.</p>
+          <p class="aside">(11분 걸렸다. 나쁘지 않아.)</p>
+        </div>
+      </div>
+
+      <div class="turn designer">
+        <div class="who"><span class="badge">🎨</span> 강디</div>
+        <div class="bubble">
+          <p>넵! "합격 스토리"로 배너 카피 잡고 카드 리스트 갈게요. 왕관 아이콘은 배너 구석에 살짝만 얹을게요 — 이 정도는 괜찮죠?</p>
+          <p class="aside">(왕관은 포기 못 해… 대신 작게. 이건 안 걸리겠지.)</p>
+        </div>
+      </div>
 
       <!-- TURNS_END -->
     </div>
 
-    <!-- ================= 요약 (결정/미결정/다음액션) ================= -->
+    <!-- ================= 요약 ================= -->
     <div class="summary">
       <div class="summary-title">🎯 회의 요약</div>
       <!-- SUMMARY_START -->
@@ -367,21 +434,26 @@ body{
       <div class="sum-card decided">
         <h3>✅ 결정</h3>
         <ul>
-          <li>결정 항목 — 근거 / 담당</li>
+          <li>게시판 이름 = "합격 스토리" — "합격" 키워드로 SEO(검색 유입) 확보 + 관공서 느낌 회피. 결정: CEO</li>
+          <li>이름 표기 통일 — 화면 표기·URL·메타 태그 전부 "합격 스토리" 단일화. 담당: 강개발</li>
+          <li>첫 화면 뼈대 = 상단 그라데이션 배너 + 합격 카드 2단 리스트. 담당: 강디</li>
         </ul>
       </div>
 
       <div class="sum-card undecided">
         <h3>⚠️ 미결정</h3>
         <ul>
-          <li>미결정 항목 — 이유 / 다음 논의 시점</li>
+          <li>배너 왕관 아이콘 노출 여부 — 강디 "작게 얹기" 제안, 브랜드 톤 확인 후 다음 회의에서 확정</li>
+          <li>합격 카드에 실명·사진 노출 범위 — 개인정보 이슈, 강감시 검토 필요 (담당자 지정 대기)</li>
         </ul>
       </div>
 
       <div class="sum-card next">
         <h3>➡️ 다음 액션</h3>
         <ul>
-          <li>액션 — 담당 / 기한</li>
+          <li>첫 화면 목업 작성 (mockup.html) — 담당: 강디 / 기한: 오늘 회의 마감 전</li>
+          <li>"합격 스토리" 메타 태그·URL 슬러그 반영 — 담당: 강개발 / 기한: 7/3 배포 전</li>
+          <li>카드 실명·사진 노출 정책 리스크 리뷰 — 담당: 강감시 / 기한: 7/2</li>
         </ul>
       </div>
 
@@ -393,12 +465,26 @@ body{
       <div class="comments-title">💬 한 줄씩</div>
       <!-- COMMENTS_START -->
 
-      <!-- 코멘트 블록 예시
+      <div class="comment pm">
+        <span class="badge">🎯</span>
+        <p><span class="c-name">강대표</span> — 11분 컷. 이름 정했으니 화면은 속도 냅시다.</p>
+      </div>
       <div class="comment designer">
         <span class="badge">🎨</span>
-        <p><span class="c-name">강디</span> — 한 줄 코멘트.</p>
+        <p><span class="c-name">강디</span> — 왕관은 작게라도 꼭 넣고 싶어요! 배너 카피 예쁘게 뽑아올게요.</p>
       </div>
-      -->
+      <div class="comment qa">
+        <span class="badge">🔍</span>
+        <p><span class="c-name">강체크</span> — 이름 통일 꼭 지켜주세요. 표기 제각각이면 제가 다 잡습니다.</p>
+      </div>
+      <div class="comment marketer">
+        <span class="badge">💡</span>
+        <p><span class="c-name">아뱅</span> — "합격 스토리" 좋아요. 배너 카피는 감성 한 스푼 얹읍시다.</p>
+      </div>
+      <div class="comment ceo">
+        <span class="badge">👤</span>
+        <p><span class="c-name">CEO</span> — 결정 났으니 딴 얘기 없이 화면 진행.</p>
+      </div>
 
       <!-- COMMENTS_END -->
     </div>
