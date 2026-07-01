@@ -126,34 +126,6 @@ body{
 }
 .header .meta span{ display:inline-flex; align-items:center; gap:5px; }
 
-/* ================= 참여자 범례 ================= */
-.legend{
-  display:flex; flex-wrap:wrap; gap:8px;
-  margin:16px 4px 4px;
-}
-.legend-label{
-  width:100%;
-  font-size:16px; font-weight:700;
-  color:var(--text-muted);
-  margin-bottom:2px;
-}
-.chip{
-  display:inline-flex; align-items:center; gap:6px;
-  padding:6px 14px;
-  border-radius:var(--radius-full);
-  color:#fff;
-  font-size:16px; font-weight:600;
-  box-shadow:var(--shadow-sm);
-  white-space:nowrap;
-}
-.chip .emoji{ font-size:16px; }
-.chip.pm{background:var(--c-pm);}
-.chip.designer{background:var(--c-designer);}
-.chip.dev{background:var(--c-dev);}
-.chip.qa{background:var(--c-qa);}
-.chip.marketer{background:var(--c-marketer);}
-.chip.ceo{background:var(--c-ceo);}
-
 /* ================= 발언 턴 (카톡 말풍선) ================= */
 .turns{ margin-top:18px; }
 
@@ -224,7 +196,7 @@ body{
 .turn.ceo .badge{background:var(--c-ceo);}
 .turn.ceo .bubble{border-left-color:var(--c-ceo); background:rgba(17,24,39,0.06);}
 
-/* ================= 요약 (대본체 아님 — 실무 카드) ================= */
+/* ================= 요약 (실무 카드) ================= */
 .summary{
   margin:26px 4px 4px;
 }
@@ -329,26 +301,13 @@ body{
         <span>📁 <span id="mtProject">프로젝트명</span></span>
       </div>
     </header>
-
-    <!-- ================= 참여자 범례 ================= -->
-    <!-- 이 회의 참여 멤버만 칩으로 남기세요 (미참여자 칩은 삭제) -->
-    <div class="legend">
-      <div class="legend-label">참여자</div>
-      <span class="chip pm"><span class="emoji">🎯</span> 강대표</span>
-      <span class="chip designer"><span class="emoji">🎨</span> 강디</span>
-      <span class="chip dev"><span class="emoji">⚙️</span> 강개발</span>
-      <span class="chip qa"><span class="emoji">🔍</span> 강체크</span>
-      <span class="chip marketer"><span class="emoji">💡</span> 아뱅</span>
-      <span class="chip ceo"><span class="emoji">👤</span> CEO</span>
-    </div>
-
-    <!-- ================= 발언 턴 ================= -->
+<!-- ================= 발언 턴 ================= -->
     <div class="turns">
       <!-- TURNS_START -->
 
       <!-- 표준 turn 블록 예시 (복사해서 사용) — 클래스: pm/designer/dev/qa/marketer/ceo
       <div class="turn designer">
-        <div class="who"><span class="badge">🎨</span> 강디</div>
+        <div class="who"><span class="badge">🎨</span></div>
         <div class="bubble">
           <p>대사...</p>
           <p class="aside">(속마음 — 괄호만, 접두어 없음)</p>
