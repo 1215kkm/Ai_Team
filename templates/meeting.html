@@ -41,7 +41,17 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1
 .addr{margin-top:8px;font-size:14px;color:var(--dir);font-weight:700}
 .addr a{color:var(--gchk);text-decoration:none;border-bottom:1px solid #d9cffb}
 h1{font-size:28px;font-weight:800;line-height:1.3;margin:8px 0 6px;letter-spacing:-.01em}
-.sub{color:var(--dir);font-size:15px;margin-bottom:22px}
+.sub{color:var(--dir);font-size:15px;margin-bottom:14px}
+
+/* 참여자 명단 — 그 회의에 실제 참여한 멤버만 (색상 칩) */
+.members{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:22px}
+.members .mlabel{font-size:13px;font-weight:700;color:var(--dir);margin-right:2px}
+.members .m{display:inline-flex;align-items:center;font-size:13px;font-weight:700;color:#fff;padding:4px 11px;border-radius:999px}
+.members .m.daepyo{background:var(--daepyo)}
+.members .m.abang{background:var(--abang)}
+.members .m.gdi{background:var(--gdi)}
+.members .m.gdev{background:var(--gdev)}
+.members .m.gchk{background:var(--gchk)}
 
 .act{margin:36px 0 10px;padding-top:22px;border-top:1px dashed var(--line)}
 .act:first-of-type{border-top:none}
@@ -70,12 +80,24 @@ h1{font-size:28px;font-weight:800;line-height:1.3;margin:8px 0 6px;letter-spacin
   <div class="tt">강팀 회의록</div>
   <div class="addr">강팀 주소 : <a href="http://appter.co.kr" target="_blank" rel="noopener">appter.co.kr</a></div>
   <h1>{{TITLE}}</h1>
-  <div class="sub">{{DATE}} · 안건: {{AGENDA}}</div>
+  <div class="sub">{{DATE}} {{TIME}} · 안건: {{AGENDA}}</div>
+
+  <!-- 참여자 — 이 회의에 *실제로 참여한 멤버만* 남기고, 불참한 사람 칩은 지운다.
+       (안건에 따라 5명 다 안 모일 수 있음. 예: 디자인 회의는 강대표·강디·강체크만.) -->
+  <div class="members">
+    <span class="mlabel">참여</span>
+    <span class="m daepyo">강대표</span>
+    <span class="m gdi">강디</span>
+    <span class="m gdev">강개발</span>
+    <span class="m gchk">강체크</span>
+    <span class="m abang">아뱅</span>
+  </div>
 
   <!--
     ACT(막) 블록 작성 예시 — 이 주석 안 내용을 복사해서 아래 ACTS_START/END 사이에 채운다.
     · 지문(.dir)·마무리지문(.end)은 *선택* — 넣지 않아도 됨. 상황 설명이 굳이 필요 없으면 생략.
     · 대사는 쉬운 말로. 어려운 전문용어(예: 가챠 등)는 쓰지 말 것.
+    · 위 참여자 명단은 *실제 발언한 멤버만* — 안 온 사람 칩은 삭제.
 
     <div class="actblock" id="act1">
       <div class="act"><div class="no">ACT 1</div><h2>장면 제목</h2></div>
