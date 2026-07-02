@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>강팀 회의록 — {{TITLE}}</title>
+<title>강팀 회의록 — 합격 사례 게시판 — 이름 &amp; 첫 화면</title>
 <!--
   대본형 회의록 템플릿 (script style).
   캐릭터 성격을 살려 "실제 사람이 대화하는 대본"처럼 회의를 기록한다.
@@ -13,7 +13,7 @@
         · 강개발(직설,된다/안된다) · 강체크(QA,꼼꼼·까칠)
 
   사용법:
-  1) 아래 {{TITLE}}/{{DATE}}/{{AGENDA}} 채우기.
+  1) 아래 합격 사례 게시판 — 이름 &amp; 첫 화면/2026-07-02/게시판 이름 짓기 + 첫 화면 방향 채우기.
   2) <!-- ACTS_START/END --> 사이에 ACT(막) 단위로 장면 추가. 형식은 바로 아래 예시 참고.
   3) 각 ACT 끝에 <div class="sum">…</div> 정리 박스로 결정·다음액션 요약.
   4) 마지막 <!-- SUMMARY_START/END --> 는 회의 전체 요약(텔레그램 발송용, promote-to-team.sh·발송 스크립트와 호환).
@@ -79,8 +79,8 @@ h1{font-size:28px;font-weight:800;line-height:1.3;margin:8px 0 6px;letter-spacin
 
   <div class="tt">강팀 회의록</div>
   <div class="addr">강팀 주소 : <a href="http://appter.co.kr" target="_blank" rel="noopener">appter.co.kr</a></div>
-  <h1>{{TITLE}}</h1>
-  <div class="sub">{{DATE}} {{TIME}} · 안건: {{AGENDA}}</div>
+  <h1>합격 사례 게시판 — 이름 &amp; 첫 화면</h1>
+  <div class="sub">2026-07-02 14:30 · 안건: 게시판 이름 짓기 + 첫 화면 방향</div>
 
   <!-- 참여자 — 이 회의에 *실제로 참여한 멤버만* 남기고, 불참한 사람 칩은 지운다.
        (안건에 따라 5명 다 안 모일 수 있음. 예: 디자인 회의는 강대표·강디·강체크만.) -->
@@ -116,9 +116,37 @@ h1{font-size:28px;font-weight:800;line-height:1.3;margin:8px 0 6px;letter-spacin
 
   <!-- ACTS_START -->
 
+  <div class="actblock" id="act1">
+    <div class="act"><div class="no">ACT 1</div><h2>이름부터 짓자</h2></div>
+    <div class="l daepyo"><span class="who">강대표</span>"이름부터. '합격 사례 게시판'… 길어. 아뱅, 뽑아봐." <span class="think">(길고 심심하다.)</span></div>
+    <div class="l abang"><span class="who">아뱅</span>"세 개 뽑아왔어. ① '합격 사례 게시판' — 정직한데 재미없어. ② '합격각' — 짧고 '나도 붙겠다' 느낌 팍. ③ '붙자' — 구호처럼 부르기 좋아." <span class="think">(②③ 밀 거다.)</span></div>
+    <div class="l gdi"><span class="who">강디</span>"저는 '합격각' 완전 예뻐요! 배지로 만들면 귀여울 것 같은데요?" <span class="think">(느낌은 좋은데 왜 좋은지는 잘…)</span></div>
+    <div class="l gchk"><span class="who">강체크</span>"'합격각' 어감은 인정. 근데 사람들이 검색할 땐 '합격 사례'로 쳐요. 검색 노출이 약해져요." <span class="think">(또 예쁘다고만 하네.)</span></div>
+    <div class="l abang"><span class="who">아뱅</span>"맞아! 그럼 화면에 보이는 이름은 '합격각', 검색용 숨은 이름은 '합격 사례'로 따로 두자. 둘 다 잡아." </div>
+    <div class="l gdev"><span class="who">강개발</span>"됩니다. 보이는 제목이랑 숨은 제목만 나누면 돼요. 10분." </div>
+    <div class="l daepyo"><span class="who">강대표</span>"합격각. 가자." <span class="think">(강디 자신감도 안 꺾고 방향은 아뱅 걸로.)</span></div>
+    <div class="sum"><b>정리</b>
+      <ul><li>이름: 화면 표시 <b>"합격각"</b> / 검색용 숨은 이름 "합격 사례"</li><li>다음 액션: 강개발 — 보이는 제목·숨은 제목 나누기 (10분)</li></ul>
+    </div>
+  </div>
+
+  <div class="actblock" id="act2">
+    <div class="act"><div class="no">ACT 2</div><h2>첫 화면 + 아뱅 아이디어</h2></div>
+    <div class="l gdi"><span class="who">강디</span>"첫 화면은 큼직한 합격 카드 여러 개! 사진 크게 박고 보라 배지 딱." <span class="think">(예쁘면 되는 거 아닌가?)</span></div>
+    <div class="l gchk"><span class="who">강체크</span>"카드에 뭘 넣을 건데요. 이름? 점수? 그거 올려도 된다고 본인 동의는 받았어요?" <span class="think">(동의 안 받으면 문제 된다.)</span></div>
+    <div class="l gdi"><span class="who">강디</span>"아… 동의는 생각 못 했어요." <span class="think">(맞다, 그거…)</span></div>
+    <div class="l abang"><span class="who">아뱅</span>"아이디어 두 개 세트로 낼게. 🔥 <b>지금 당장</b> — 합격한 사람이 자랑하려고 직접 올리게. 동의도 받고 글도 저절로 쌓여, 이번 주 바로 가능. 🚀 <b>확장형</b> — 올린 게 쌓이면 '인기 합격각' 갤러리 만들어서 검색으로 새 사람 유입. 지금 안이 확장 안의 재료가 돼." <span class="think">(급한 것 + 키울 것. 세트로 던진다.)</span></div>
+    <div class="l gchk"><span class="who">강체크</span>"지금 안 좋아요. 올릴 때 '공개해도 돼요' 체크 필수, 체크 안 하면 비공개. 그거면 통과." </div>
+    <div class="l gdev"><span class="who">강개발</span>"올리기 창 + 동의 체크 + 공개/비공개 표시. 반나절. 갤러리는 나중에." </div>
+    <div class="l daepyo"><span class="who">강대표</span>"좋아. 지금은 직접 올리기부터. 갤러리는 다음. 가자." <span class="think">(급한 것 먼저, 확장은 검증 후.)</span></div>
+    <div class="sum"><b>정리</b>
+      <ul><li>결정(지금): 합격한 사람이 직접 올림 (공개 동의 체크 필수)</li><li>다음 회의(확장): '인기 합격각' 갤러리 — 지금 안 검증 후</li><li>다음 액션: 강디 그림 / 강체크 동의 문구 / 강개발 올리기 창 (반나절)</li></ul>
+    </div>
+  </div>
+
   <!-- ACTS_END -->
 
-  <div class="note">강팀 회의록 · {{TITLE}}</div>
+  <div class="note">강팀 회의록 · 합격 사례 게시판 — 이름 &amp; 첫 화면</div>
 
 </div></div>
 
